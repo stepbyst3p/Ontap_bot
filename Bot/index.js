@@ -90,5 +90,8 @@ bot.on("location", msg => {
     } else {
       console.log(error);
     }
+    process.on("uncaughtException", err => {
+      console.error(err);
+    });
   });
 });
