@@ -6,6 +6,7 @@ const emoji = require("node-emoji").emoji;
 const _ = require("lodash");
 const headers = {
   "User-Agent": "Super Agent/0.0.1",
+  Connection: "keep-alive",
   "Content-Type": "application/x-www-form-urlencoded"
 };
 
@@ -90,8 +91,5 @@ bot.on("location", msg => {
     } else {
       console.log(error);
     }
-    process.on("uncaughtException", err => {
-      console.error(err);
-    });
   });
 });
