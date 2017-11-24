@@ -13,7 +13,9 @@ const optionsBeers = {
   url: "http://localhost:8000/beers",
   method: "POST",
   headers: headers,
-  form: { barTitle: "" }
+  form: { barTitle: "" },
+  agent: false,
+  pool: { maxSockets: 100 }
 };
 
 const markDownOption = {
@@ -34,7 +36,9 @@ bot.on("location", msg => {
     url: "http://localhost:8000/bars",
     method: "POST",
     headers: headers,
-    form: { lat: msg.location.latitude, lng: msg.location.longitude }
+    form: { lat: msg.location.latitude, lng: msg.location.longitude },
+    agent: false,
+    pool: { maxSockets: 100 }
   };
   // console.log(msg.location);
   request(optionsBars, function(error, response, body) {
@@ -68,7 +72,9 @@ bot.on("location", msg => {
                   JSON.parse(body),
                   (beer, title) => {
                     console.log({ beer });
-                    return `${emoji.beer} ${beer.title}\nПивоварня: ${beer.brewery}\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}`;
+                    return `${emoji.beer} ${beer.title}\nПивоварня: ${
+                      beer.brewery
+                    }\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}`;
                   }
                 );
                 console.log(prettyBeerList);
