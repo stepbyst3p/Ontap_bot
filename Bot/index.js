@@ -41,7 +41,7 @@ bot.on("location", msg => {
     agent: false,
     pool: { maxSockets: 100 }
   };
-  // console.log(msg.location);
+  console.log(msg.location);
   request(optionsBars, function(error, response, body) {
     if (!error) {
       const bars = JSON.parse(body);
