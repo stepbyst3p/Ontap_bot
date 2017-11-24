@@ -34,7 +34,7 @@ bot.on("location", msg => {
   const chatId = msg.chat.id;
 
   const optionsBars = {
-    url: "http://localhost:8000/bars",
+    url: "http://httpbin.org/post",
     method: "POST",
     headers: headers,
     form: { lat: msg.location.latitude, lng: msg.location.longitude },
