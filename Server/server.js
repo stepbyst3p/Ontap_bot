@@ -19,11 +19,6 @@ const ref = fb.ref("/users");
 
 const port = 8000;
 app.use(bodyParser.urlencoded({ extended: true }));
-MongoClient.connect(db.url, (err, database) => {
-  app.listen(port, () => {
-    console.log("We are live on " + port);
-  });
-});
 
 app.post("/bars", (req, res) => {
   console.log(req.body);
