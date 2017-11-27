@@ -68,22 +68,30 @@ bot.on("location", msg => {
               "http://localhost:8000/beers",
               { form: { barTitle: answer.text } },
               function(error, response, body) {
-                console.log(JSON.parse(body));
-                const prettyBeerList = _.map(
-                  JSON.parse(body),
-                  (beer, title) => {
-                    console.log({ beer });
-                    return `${emoji.beer} ${beer.title}\nПивоварня: ${
-                      beer.brewery
-                    }\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}%`;
-                  }
-                );
-                console.log(prettyBeerList);
-                bot.sendMessage(
-                  chatId,
-                  ` ` + prettyBeerList.join("\n\n"),
-                  markDownOption
-                );
+                if (body.length > 0) {
+                  console.log(JSON.parse(body));
+                  const prettyBeerList = _.map(
+                    JSON.parse(body),
+                    (beer, title) => {
+                      console.log({ beer });
+                      return `${emoji.beer} ${beer.title}\nПивоварня: ${
+                        beer.brewery
+                      }\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}%`;
+                    }
+                  );
+                  console.log(prettyBeerList);
+                  bot.sendMessage(
+                    chatId,
+                    prettyBeerList.join("\n\n"),
+                    markDownOption
+                  );
+                } else {
+                  bot.sendMessage(
+                    chatId,
+                    "Бар пока не опубликовал никаких кранов",
+                    markDownOption
+                  );
+                }
               }
             );
           });
