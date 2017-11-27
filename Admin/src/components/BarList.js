@@ -159,7 +159,7 @@ class BarList extends Component {
                       onClick={() => {
                         this.showBeerAddForm(barId);
                       }}
-                      className="pt-button pt-icon-th-list pt-minimal"
+                      className="pt-button pt-icon-th-list pt-default"
                       onClick={() => {
                         this.showBeerAddForm(barId);
                         console.log(this.state.isBeerAddFormShown);
@@ -168,7 +168,7 @@ class BarList extends Component {
                       Ассортимент
                     </button>
                     <button
-                      className="pt-button pt-icon-edit pt-minimal"
+                      className="pt-button pt-icon-edit pt-default"
                       onClick={() => {
                         this.showBarEditForm(barId);
                         console.log(this.state.isBarEditFormShown);
@@ -177,7 +177,7 @@ class BarList extends Component {
                       Редактировать
                     </button>
                     <button
-                      className="pt-button pt-icon-delete pt-minimal"
+                      className="pt-button pt-icon-delete pt-default"
                       onClick={() => this.removeBar(bar.id)}
                     >
                       Удалить

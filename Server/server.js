@@ -19,7 +19,7 @@ const ref = fb.ref("/users");
 
 const port = 8000;
 app.use(bodyParser.urlencoded({ extended: true }));
-
+console.log("Hello. Im Alive!");
 app.post("/bars", (req, res) => {
   console.log(req.body);
   const geo = {
