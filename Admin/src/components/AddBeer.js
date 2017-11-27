@@ -39,8 +39,9 @@ class AddBeer extends Component {
     const beerRef = app
       .database()
       .ref(
-        `users/${this.props.userUid}/bars/${this.props.barId}/beers/${this.state
-          .showBeerEditFormForBeerWithId}`
+        `users/${this.props.userUid}/bars/${this.props.barId}/beers/${
+          this.state.showBeerEditFormForBeerWithId
+        }`
       );
     debugger;
     const beerTitle = this.state.EditingBeerTitle;
