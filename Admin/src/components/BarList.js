@@ -58,8 +58,9 @@ class BarList extends Component {
         const barRef = app
           .database()
           .ref(
-            `users/${this.props.userUid}/bars/${this.state
-              .showBarEditFormForBarWithId}`
+            `users/${this.props.userUid}/bars/${
+              this.state.showBarEditFormForBarWithId
+            }`
           );
         debugger;
         const title = this.state.title;
@@ -158,28 +159,28 @@ class BarList extends Component {
                       onClick={() => {
                         this.showBeerAddForm(barId);
                       }}
-                      className="pt-button"
+                      className="pt-button pt-icon-th-list pt-minimal"
                       onClick={() => {
                         this.showBeerAddForm(barId);
                         console.log(this.state.isBeerAddFormShown);
                       }}
                     >
-                      {`${emoji.beers}`} Ассортимент
+                      Ассортимент
                     </button>
                     <button
-                      className="pt-button"
+                      className="pt-button pt-icon-edit pt-minimal"
                       onClick={() => {
                         this.showBarEditForm(barId);
                         console.log(this.state.isBarEditFormShown);
                       }}
                     >
-                      {`${emoji.pencil2}`} Редактировать
+                      Редактировать
                     </button>
                     <button
-                      className="pt-button"
+                      className="pt-button pt-icon-delete pt-minimal"
                       onClick={() => this.removeBar(bar.id)}
                     >
-                      {`${emoji.x}`} Удалить
+                      Удалить
                     </button>
                   </div>
                 </div>
