@@ -86,7 +86,6 @@ bot.on("location", msg => {
                     markDownOption
                   );
                 } else {
-                  console.log(body);
                   bot.sendMessage(
                     chatId,
                     "Бар пока не опубликовал никаких кранов",
