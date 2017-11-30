@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { Toaster, Intent } from "@blueprintjs/core";
+import Registration from "./Registration";
+import {
+  Toaster,
+  Intent,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanel
+} from "@blueprintjs/core";
 import { app, facebookProvider } from "../base";
 
 const loginStyles = {
@@ -49,15 +57,15 @@ class Login extends Component {
       .auth()
       .fetchProvidersForEmail(email)
       .then(providers => {
-        if (providers.length === 0) {
-          // create user
-          return app.auth().createUserWithEmailAndPassword(email, password);
-        } else if (providers.indexOf("password") === -1) {
+        // if (providers.length === 0) {
+        //   return app.auth().createUserWithEmailAndPassword(email, password);
+        // } else
+        if (providers.indexOf("password") === -1) {
           // they used facebook
           this.loginForm.reset();
           this.toaster.show({
             intent: Intent.WARNING,
-            message: "Try alternative login."
+            message: "Неверный логин или пароль."
           });
         } else {
           // sign user in
@@ -102,54 +110,65 @@ class Login extends Component {
           Log In with Facebook
         </button>
         <hr style={{ marginTop: "10px", marginBottom: "10px" }} /> */}
-        <form
-          onSubmit={event => {
-            this.authWithEmailPassword(event);
-          }}
-          ref={form => {
-            this.loginForm = form;
-          }}
-        >
-          <div
-            style={{ marginBottom: "10px" }}
-            className="pt-callout pt-icon-info-sign"
-          >
-            <h5>Важно</h5>
-            Если у вас ещё нет аккаунта, то эта форма создаст вам его.
-          </div>
-          <label className="pt-label">
-            Email
-            <input
-              style={{ width: "100%" }}
-              className="pt-input"
-              name="email"
-              type="email"
-              ref={input => {
-                this.emailInput = input;
+        <Tabs>
+          <TabList>
+            <Tab>Вход</Tab>
+            <Tab>Регистрация</Tab>
+          </TabList>
+          <TabPanel>
+            {" "}
+            <form
+              onSubmit={event => {
+                this.authWithEmailPassword(event);
               }}
-              placeholder="Email"
-            />
-          </label>
-          <label className="pt-label">
-            Пароль
-            <input
-              style={{ width: "100%" }}
-              className="pt-input"
-              name="password"
-              type="password"
-              ref={input => {
-                this.passwordInput = input;
+              ref={form => {
+                this.loginForm = form;
               }}
-              placeholder="Пароль"
-            />
-          </label>
-          <input
-            style={{ width: "100%" }}
-            type="submit"
-            className="pt-button pt-intent-primary"
-            value="Войти в личный кабинет"
-          />
-        </form>
+            >
+              <div
+                style={{ marginBottom: "10px" }}
+                className="pt-callout pt-icon-log-in"
+              >
+                <h5>Вход в панель управления</h5>
+              </div>
+              <label className="pt-label">
+                Email
+                <input
+                  style={{ width: "100%" }}
+                  className="pt-input"
+                  name="email"
+                  type="email"
+                  ref={input => {
+                    this.emailInput = input;
+                  }}
+                  placeholder="Email"
+                />
+              </label>
+              <label className="pt-label">
+                Пароль
+                <input
+                  style={{ width: "100%" }}
+                  className="pt-input"
+                  name="password"
+                  type="password"
+                  ref={input => {
+                    this.passwordInput = input;
+                  }}
+                  placeholder="Пароль"
+                />
+              </label>
+              <input
+                style={{ width: "100%" }}
+                type="submit"
+                className="pt-button pt-intent-primary"
+                value="Войти в личный кабинет"
+              />
+            </form>
+          </TabPanel>
+          <TabPanel>
+            <Registration />
+          </TabPanel>
+        </Tabs>
       </div>
     );
   }

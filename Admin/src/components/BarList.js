@@ -32,10 +32,14 @@ class BarList extends Component {
       showBarEditFormForBarWithId: "",
       address: "",
       title: "",
+      EditingAddress: "",
+      EditingTitle: "",
       isBarEditFormShown: true,
       isBeerAddFormShown: true
     };
     this.onChange = address => this.setState({ address });
+    this.onEditAddressChange = address =>
+      this.setState({ EditingAddress: address });
     this.onTitleChange = title => this.setState({ title });
   }
   showBeerAddForm(barId) {
@@ -44,15 +48,19 @@ class BarList extends Component {
       isBeerAddFormShown: !this.state.isBeerAddFormShown
     });
   }
-  showBarEditForm(barId) {
+  showBarEditForm(barId, barTitle, barAddress) {
     this.setState({
       showBarEditFormForBarWithId: barId,
-      isBarEditFormShown: !this.state.isBarEditFormShown
+      isBarEditFormShown: !this.state.isBarEditFormShown,
+      EditingTitle: barTitle,
+      EditingAddress: barAddress
     });
   }
   updateBar(event) {
     event.preventDefault();
-    geocodeByAddress(this.state.address)
+    console.log(event);
+    debugger;
+    geocodeByAddress(this.state.EditingAddress)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
         const barRef = app
@@ -62,9 +70,8 @@ class BarList extends Component {
               this.state.showBarEditFormForBarWithId
             }`
           );
-        debugger;
-        const title = this.state.title;
-        const address = this.state.address;
+        const title = this.state.EditingTitle;
+        const address = this.state.EditingAddress;
         const geocode = latLng;
         const updates = {};
         updates["title"] = title;
@@ -97,6 +104,12 @@ class BarList extends Component {
       required: true,
       placeholder: "Адрес"
     };
+    const addressEditProps = {
+      value: this.state.EditingAddress,
+      onChange: this.onEditAddressChange,
+      required: true,
+      placeholder: "Адрес"
+    };
     const cssForAddressInput = {
       input: "pt-input"
     };
@@ -108,6 +121,8 @@ class BarList extends Component {
           {barIds.map(id => {
             const bar = bars[id];
             let barId = bar.id;
+            let barAddress = bar.address;
+            let barTitle = bar.title;
             return (
               <div
                 key={id}
@@ -127,14 +142,16 @@ class BarList extends Component {
                       >
                         <input
                           className="pt-input"
-                          name="title"
+                          name="EditingTitle"
                           type="text"
                           onChange={this.handleChangeBarTitleForm}
+                          value={this.state.EditingTitle}
                           placeholder="Название бара"
                           required
                         />
                         <PlacesAutocomplete
-                          inputProps={inputProps}
+                          inputProps={addressEditProps}
+                          value={this.state.EditingAddress}
                           classNames={cssForAddressInput}
                         />
                         <input
@@ -170,7 +187,7 @@ class BarList extends Component {
                     <button
                       className="pt-button pt-icon-edit pt-default"
                       onClick={() => {
-                        this.showBarEditForm(barId);
+                        this.showBarEditForm(barId, barTitle, barAddress);
                         console.log(this.state.isBarEditFormShown);
                       }}
                     >

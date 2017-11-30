@@ -3,9 +3,12 @@ const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
 const db = require("./config/db");
 const distance = require("gps-distance");
+const cors = require("cors");
 const app = express();
+app.use(cors());
 const _ = require("lodash");
 const geolib = require("geolib");
+const nodemailer = require("nodemailer");
 
 // const firebase = require("./config/firebase");
 const admin = require("firebase-admin");
@@ -22,6 +25,49 @@ app.listen(port, () => {
   console.log("We are live on " + port);
 });
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.post("/register", (req, res) => {
+  console.log({ req });
+  const {
+    email = "",
+    name = "",
+    barTitle = "",
+    barCity = "",
+    barAddress = ""
+  } = req.body;
+
+  nodemailer.createTestAccount((err, account) => {
+    let transporter = nodemailer.createTransport({
+      host: "smtp.yandex.ru",
+      port: 465,
+      secure: true,
+      auth: {
+        user: "lttasap",
+        pass: "fck1ng00dp45"
+      }
+    });
+
+    let mailOptions = {
+      from: `${barTitle}"🍺" <lttasap@yandex.ru>`,
+      to: "spikerdn@gmail.com",
+      subject: "Новая заявка ✔",
+      text: "Hello world?",
+      html: `<b>Имя: </b>${name}<br/><b>Email: </b>${
+        email
+      }<br/><b>Название: </b>${barTitle}<br/><b>Город: </b>${
+        barCity
+      }<br/><b>Адрес: </b>${barAddress}`
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      res.send("success");
+    });
+  });
+});
+
 app.post("/bars", (req, res) => {
   console.log(req.body);
   const geo = {
@@ -34,15 +80,7 @@ app.post("/bars", (req, res) => {
     const obj = Object.values(Data).map(x => x.bars);
     const barsCollection = Object.values(obj).map(x => {
       let bors = Object.values(x).map(bar => ({
-        //         let truebars = {
-        // title: bar.title,
-        // address: bar.address,
-        // geocode: bar.geocode,
-        // beers: bar.beers
-        //         };
-        //         const geocodes = {
         [bar.address]: bar.geocode
-        //         };
       }));
       return bors;
     });
@@ -52,7 +90,6 @@ app.post("/bars", (req, res) => {
       for (var key in x) acc[key] = x[key];
       return acc;
     }, {});
-    // console.log(geocodes);
 
     const sortedGeocodes = geolib.orderByDistance(geo, geocodes, 500);
 
@@ -65,12 +102,7 @@ app.post("/bars", (req, res) => {
       }));
       return bors;
     });
-
-    // let asd = bars.map(a => {a.title, a.address, a.geocode, a.beers});
     let qwe = [].concat.apply([], bars);
-
-    // console.log(qwe);
-    // console.log(sortedGeocodes[0].key);
     let meow = {
       result1: _.find(qwe, { address: sortedGeocodes[0].key }),
       result2: _.find(qwe, { address: sortedGeocodes[1].key }),
@@ -79,20 +111,7 @@ app.post("/bars", (req, res) => {
       result5: _.find(qwe, { address: sortedGeocodes[4].key })
     };
     console.log(meow);
-
     res.send(meow);
-    // // const bars = _.map(Data, (spot, barId) => ({
-    //   title: spot.title,
-    //   geocode: spot.geocode,
-    //   barId
-    // }));
-    // const geocodes = _.map(bars, (bar, title) => ({
-    //   [bar.title]: bar.geocode
-    // }));
-    // geocodes[bars.title] = bars.geocode;
-    // console.log(geocodes);
-    // _.find(spots, { geocode: sortedGeocodes[0] });
-    // res.send(sortedGeocodesn.slice(0, 5));
   });
 });
 
@@ -100,43 +119,27 @@ app.post("/beers", (req, res) => {
   const barTitle = req.body.barTitle;
   console.log(barTitle);
   ref.once("value", function(snapshot) {
-    const Data = snapshot.val();
-    const obj = Object.values(Data).map(x => x.bars);
-    const barsCollection = Object.values(obj).map(x => {
-      let bors = Object.values(x).map(bar => ({
-        //         let truebars = {
-        // title: bar.title,
-        // address: bar.address,
-        // geocode: bar.geocode,
-        // beers: bar.beers
-        //         };
-        //         const geocodes = {
-        title: bar.title,
-        beers: bar.beers
-        //         };
+    if (snapshot.val().length > 0) {
+      const Data = snapshot.val();
+      const obj = Object.values(Data).map(x => x.bars);
+      const barsCollection = Object.values(obj).map(x => {
+        let bors = Object.values(x).map(bar => ({
+          title: bar.title,
+          beers: bar.beers
+        }));
+        return bors;
+      });
+      let qwe = [].concat.apply([], barsCollection);
+      const thisBar = _.find(qwe, { title: barTitle });
+      const beerList = _.map(thisBar.beers, beer => ({
+        title: beer.beerTitle,
+        brewery: beer.beerBrewery,
+        style: beer.beerStyle,
+        alc: beer.beerAlc
       }));
-      return bors;
-    });
-    let qwe = [].concat.apply([], barsCollection);
-    const thisBar = _.find(qwe, { title: barTitle });
-
-    // let asd = bars.map(a => {a.title, a.address, a.geocode, a.beers});
-    // let qwe = [].concat.apply([], beers);
-    // const huirs = _.find(qwe, { barTitle: barTitle });
-    // const beers = _.find(qwe, o => {
-    //   return o.title === barTitle;
-    // });
-
-    const beerList = _.map(thisBar.beers, beer => ({
-      title: beer.beerTitle,
-      brewery: beer.beerBrewery,
-      style: beer.beerStyle,
-      alc: beer.beerAlc
-    }));
-
-    // }));
-    // console.log(beers.beers);
-    // console.log(beerList);
-    res.send(beerList);
+      res.send(beerList);
+    } else {
+      res.send("empty");
+    }
   });
 });

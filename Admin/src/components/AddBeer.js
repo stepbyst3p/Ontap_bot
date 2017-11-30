@@ -27,9 +27,13 @@ class AddBeer extends Component {
     this.showBeerEditForm = this.showBeerEditForm.bind(this);
   }
 
-  showBeerEditForm(beerId) {
+  showBeerEditForm(beerId, beerTitle, beerBrewery, beerStyle, beerAlc) {
     this.setState({
       beerId: beerId,
+      EditingBeerTitle: beerTitle,
+      EditingBeerBrewery: beerBrewery,
+      EditingBeerStyle: beerStyle,
+      EditingBeerAlc: beerAlc,
       showBeerEditFormForBeerWithId: beerId,
       isBeerEditFormShown: !this.state.isBeerEditFormShown
     });
@@ -56,6 +60,12 @@ class AddBeer extends Component {
     console.log(updates);
     beerRef.update(updates);
     console.log(this.state.isBeerEditFormShown);
+    this.setState({
+      EditingBeerTitle: "",
+      EditingBeerBrewery: "",
+      EditingBeerStyle: "",
+      EditingBeerAlc: ""
+    });
   }
 
   componentDidMount() {
@@ -115,6 +125,8 @@ class AddBeer extends Component {
     // });
   }
 
+  //=====ЗАПИСЫВАТЬ В СТЕЙТ ДАННЫЕ ПИВА, ПО КОТОРОМУ КЛИКНУЛИ ПРИ НАЖАТИЮ НА "РЕДАКТИРОВАТЬ"=====\\
+
   render() {
     return (
       <div>
@@ -127,7 +139,7 @@ class AddBeer extends Component {
               type="text"
               name="beerTitle"
               className="pt-input "
-              placeholder="Название Пива"
+              placeholder="Name"
               onChange={this.handleChangeBeerForm}
               value={this.state.beerTitle}
               required
@@ -136,7 +148,7 @@ class AddBeer extends Component {
               type="text"
               className="pt-input "
               name="beerBrewery"
-              placeholder="Пивоварня"
+              placeholder="Brewery"
               onChange={this.handleChangeBeerForm}
               value={this.state.beerBrewery}
               required
@@ -145,7 +157,7 @@ class AddBeer extends Component {
               type="text"
               className="pt-input "
               name="beerStyle"
-              placeholder="Стиль"
+              placeholder="Style"
               onChange={this.handleChangeBeerForm}
               value={this.state.beerStyle}
               required
@@ -154,10 +166,11 @@ class AddBeer extends Component {
               type="number"
               className="pt-input "
               name="beerAlc"
-              placeholder="Алкоголь"
+              placeholder="ABV"
               onChange={this.handleChangeBeerForm}
               value={this.state.beerAlc}
               required
+              step="any"
             />
             <button className="pt-button pt-intent-success">
               Добавить кран
@@ -168,15 +181,19 @@ class AddBeer extends Component {
         <table className="pt-table" style={{ width: "100%" }}>
           <thead>
             <tr>
-              <th>Название</th>
-              <th>Пивоварня</th>
-              <th>Стиль</th>
-              <th>Алкоголь (%)</th>
+              <th>Name</th>
+              <th>Brewery</th>
+              <th>Style</th>
+              <th>ABV (%)</th>
             </tr>
           </thead>
           <tbody>
             {this.state.beers.map(beer => {
               let beerId = beer.id;
+              let beerTitle = beer.beerTitle;
+              let beerBrewery = beer.beerBrewery;
+              let beerStyle = beer.beerStyle;
+              let beerAlc = beer.beerAlc;
               return (
                 <tr key={beer.id}>
                   <td>
@@ -186,7 +203,7 @@ class AddBeer extends Component {
                         type="text"
                         name="EditingBeerTitle"
                         className="pt-input "
-                        placeholder="Название Пива"
+                        placeholder="Name"
                         onChange={this.handleChangeEditBeerForm}
                         value={this.state.EditingBeerTitle}
                         required
@@ -203,7 +220,7 @@ class AddBeer extends Component {
                         type="text"
                         className="pt-input "
                         name="EditingBeerBrewery"
-                        placeholder="Пивоварня"
+                        placeholder="Brewery"
                         onChange={this.handleChangeEditBeerForm}
                         value={this.state.EditingBeerBrewery}
                         required
@@ -220,7 +237,7 @@ class AddBeer extends Component {
                         type="text"
                         className="pt-input "
                         name="EditingBeerStyle"
-                        placeholder="Стиль"
+                        placeholder="Style"
                         onChange={this.handleChangeEditBeerForm}
                         value={this.state.EditingBeerStyle}
                         required
@@ -237,11 +254,12 @@ class AddBeer extends Component {
                         type="number"
                         className="pt-input "
                         name="EditingBeerAlc"
-                        placeholder="Алкоголь"
+                        placeholder="ABV"
                         onChange={this.handleChangeEditBeerForm}
                         value={this.state.EditingBeerAlc}
                         required
                         form="beerEditForm"
+                        step="any"
                       />
                     ) : (
                       beer.beerAlc
@@ -260,8 +278,14 @@ class AddBeer extends Component {
                     <button
                       className="pt-button pt-icon-edit pt-minimal"
                       onClick={() => {
-                        this.showBeerEditForm(beerId);
-                        console.log(beerId);
+                        this.showBeerEditForm(
+                          beerId,
+                          beerTitle,
+                          beerBrewery,
+                          beerStyle,
+                          beerAlc
+                        );
+                        console.log(beerId, beerTitle);
                       }}
                     />
                     <button

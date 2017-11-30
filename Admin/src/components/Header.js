@@ -22,7 +22,8 @@ class Header extends Component {
       <nav className="pt-navbar">
         <div className="pt-navbar-group pt-align-left">
           <div className="pt-navbar-heading">
-            <strong>{`${emoji.beer} Ontap_Bot`}</strong>
+            <img src="logo.svg" className="logo" />{" "}
+            <strong className="brandName">{`Ontap_Bot`}</strong>
           </div>
         </div>
         {this.props.authenticated ? (
@@ -60,7 +61,7 @@ class Header extends Component {
           </div>
         ) : (
           <div className="pt-navbar-group pt-align-right">
-            <Link className="pt-button pt-intent-primary" to="/login">
+            <Link className="pt-button pt-intent-primary" to="/">
               Регистрация/Вход
             </Link>
           </div>

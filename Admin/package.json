@@ -5,9 +5,11 @@
   "dependencies": {
     "@blueprintjs/core": "^1.33.0",
     "@blueprintjs/table": "^1.30.0",
+    "axios": "^0.17.1",
     "chordsheetjs": "^1.0.4",
     "firebase": "^4.6.2",
     "node-emoji": "^1.8.1",
+    "nodemailer": "^4.4.0",
     "normalize": "^0.3.1",
     "re-base": "^3.0.2",
     "react": "^15.6.1",

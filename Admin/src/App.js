@@ -17,10 +17,9 @@ function AuthenticatedRoute({ component: Component, authenticated, ...rest }) {
         authenticated === true ? (
           <Component {...props} {...rest} />
         ) : (
-          <Redirect
-            to={{ pathname: "/login", state: { from: props.location } }}
-          />
-        )}
+          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+        )
+      }
     />
   );
 }
@@ -32,9 +31,7 @@ function ShowRoute({ component: Component, items, param, ...rest }) {
       render={({ match, ...props }) => {
         if (rest.requireAuth === true && !rest.authenticated) {
           return (
-            <Redirect
-              to={{ pathname: "/login", state: { from: props.location } }}
-            />
+            <Redirect to={{ pathname: "/", state: { from: props.location } }} />
           );
         }
 
@@ -182,7 +179,7 @@ class App extends Component {
               <div className="workspace">
                 <Route
                   exact
-                  path="/login"
+                  path="/"
                   render={props => {
                     return (
                       <Login setCurrentUser={this.setCurrentUser} {...props} />
