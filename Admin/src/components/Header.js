@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Popover, PopoverInteractionKind, Position } from "@blueprintjs/core";
 import NewBarForm from "./NewBarForm";
-import { emoji } from "node-emoji";
 
 class Header extends Component {
   constructor(props) {
@@ -22,7 +21,7 @@ class Header extends Component {
       <nav className="pt-navbar">
         <div className="pt-navbar-group pt-align-left">
           <div className="pt-navbar-heading">
-            <img src="logo.svg" className="logo" />{" "}
+            <img src="logo.svg" className="logo" alt="Ontap Bot" />{" "}
             <strong className="brandName">{`Ontap_Bot`}</strong>
           </div>
         </div>

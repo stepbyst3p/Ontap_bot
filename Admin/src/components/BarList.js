@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import NewBeerForm from "./NewBeerForm";
 import AddBeer from "./AddBeer";
-import BeerList from "./BeerList";
-import { app, base } from "../base";
+import { app } from "../base";
 import { emoji } from "node-emoji";
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -27,20 +24,17 @@ class BarList extends Component {
     this.showBeerAddForm = this.showBeerAddForm.bind(this);
     this.removeBar = this.removeBar.bind(this);
     this.handleChangeBarTitleForm = this.handleChangeBarTitleForm.bind(this);
+    this.updateBar = this.updateBar.bind(this);
     this.state = {
       showBeerAddFormForBarWithId: "",
       showBarEditFormForBarWithId: "",
-      address: "",
-      title: "",
       EditingAddress: "",
       EditingTitle: "",
       isBarEditFormShown: true,
       isBeerAddFormShown: true
     };
-    this.onChange = address => this.setState({ address });
-    this.onEditAddressChange = address =>
-      this.setState({ EditingAddress: address });
-    this.onTitleChange = title => this.setState({ title });
+    this.onEditAddressChange = EditingAddress =>
+      this.setState({ EditingAddress });
   }
   showBeerAddForm(barId) {
     this.setState({
@@ -58,11 +52,17 @@ class BarList extends Component {
   }
   updateBar(event) {
     event.preventDefault();
-    console.log(event);
-    debugger;
+    const title = this.state.EditingTitle;
+    const address = this.state.EditingAddress;
     geocodeByAddress(this.state.EditingAddress)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
+        debugger;
+        console.log(this.state);
+        const updates = {};
+        updates["title"] = title;
+        updates["address"] = address;
+        updates["geocode"] = latLng;
         const barRef = app
           .database()
           .ref(
@@ -70,16 +70,7 @@ class BarList extends Component {
               this.state.showBarEditFormForBarWithId
             }`
           );
-        const title = this.state.EditingTitle;
-        const address = this.state.EditingAddress;
-        const geocode = latLng;
-        const updates = {};
-        updates["title"] = title;
-        updates["address"] = address;
-        updates["geocode"] = geocode;
-        console.log(updates);
         barRef.update(updates);
-        console.log(this.state.isBarEditFormShown);
       })
       .catch(error => console.error("Error", error));
   }
@@ -88,7 +79,14 @@ class BarList extends Component {
     const barRef = app
       .database()
       .ref(`users/${this.props.userUid}/bars/${barId}`);
-    barRef.remove();
+    let confirmation = window.confirm(
+      "Вы уверены, что хотите удалить бар и все данные, привязанные к нему?"
+    );
+    if (confirmation === true) {
+      barRef.remove();
+    } else {
+      return false;
+    }
   }
   handleChangeBarTitleForm(e) {
     this.setState({
@@ -98,12 +96,6 @@ class BarList extends Component {
   render() {
     const { bars } = this.props;
     const barIds = Object.keys(bars);
-    const inputProps = {
-      value: this.state.address,
-      onChange: this.onChange,
-      required: true,
-      placeholder: "Адрес"
-    };
     const addressEditProps = {
       value: this.state.EditingAddress,
       onChange: this.onEditAddressChange,
@@ -131,7 +123,7 @@ class BarList extends Component {
               >
                 <div className="barHead">
                   {this.state.showBarEditFormForBarWithId === barId &&
-                  this.state.isBarEditFormShown == false ? (
+                  this.state.isBarEditFormShown === false ? (
                     <div className="barInfoEdit">
                       <form
                         onSubmit={event => {
@@ -151,7 +143,6 @@ class BarList extends Component {
                         />
                         <PlacesAutocomplete
                           inputProps={addressEditProps}
-                          value={this.state.EditingAddress}
                           classNames={cssForAddressInput}
                         />
                         <input
@@ -179,7 +170,6 @@ class BarList extends Component {
                       className="pt-button pt-icon-th-list pt-default"
                       onClick={() => {
                         this.showBeerAddForm(barId);
-                        console.log(this.state.isBeerAddFormShown);
                       }}
                     >
                       Ассортимент
@@ -202,7 +192,7 @@ class BarList extends Component {
                   </div>
                 </div>
                 {this.state.showBeerAddFormForBarWithId === barId &&
-                this.state.isBeerAddFormShown == false ? (
+                this.state.isBeerAddFormShown === false ? (
                   // <NewBeerForm
                   //   addBeer={this.props.addBeer}
                   //   barId={this.state.showBeerAddFormForBarWithId}

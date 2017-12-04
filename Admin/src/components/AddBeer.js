@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { app } from "../base";
-import { emoji } from "node-emoji";
 
 class AddBeer extends Component {
   constructor() {
@@ -125,8 +124,6 @@ class AddBeer extends Component {
     // });
   }
 
-  //=====ЗАПИСЫВАТЬ В СТЕЙТ ДАННЫЕ ПИВА, ПО КОТОРОМУ КЛИКНУЛИ ПРИ НАЖАТИЮ НА "РЕДАКТИРОВАТЬ"=====\\
-
   render() {
     return (
       <div>
@@ -181,6 +178,7 @@ class AddBeer extends Component {
         <table className="pt-table" style={{ width: "100%" }}>
           <thead>
             <tr>
+              <th>№</th>
               <th>Name</th>
               <th>Brewery</th>
               <th>Style</th>
@@ -188,17 +186,18 @@ class AddBeer extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.beers.map(beer => {
+            {this.state.beers.map((beer, index) => {
               let beerId = beer.id;
               let beerTitle = beer.beerTitle;
               let beerBrewery = beer.beerBrewery;
               let beerStyle = beer.beerStyle;
               let beerAlc = beer.beerAlc;
               return (
-                <tr key={beer.id}>
+                <tr key={index}>
+                  <td>{index}</td>
                   <td>
                     {this.state.showBeerEditFormForBeerWithId === beerId &&
-                    this.state.isBeerEditFormShown == false ? (
+                    this.state.isBeerEditFormShown === false ? (
                       <input
                         type="text"
                         name="EditingBeerTitle"
@@ -215,7 +214,7 @@ class AddBeer extends Component {
                   </td>
                   <td>
                     {this.state.showBeerEditFormForBeerWithId === beerId &&
-                    this.state.isBeerEditFormShown == false ? (
+                    this.state.isBeerEditFormShown === false ? (
                       <input
                         type="text"
                         className="pt-input "
@@ -232,7 +231,7 @@ class AddBeer extends Component {
                   </td>
                   <td>
                     {this.state.showBeerEditFormForBeerWithId === beerId &&
-                    this.state.isBeerEditFormShown == false ? (
+                    this.state.isBeerEditFormShown === false ? (
                       <input
                         type="text"
                         className="pt-input "
@@ -249,7 +248,7 @@ class AddBeer extends Component {
                   </td>
                   <td>
                     {this.state.showBeerEditFormForBeerWithId === beerId &&
-                    this.state.isBeerEditFormShown == false ? (
+                    this.state.isBeerEditFormShown === false ? (
                       <input
                         type="number"
                         className="pt-input "
@@ -267,7 +266,7 @@ class AddBeer extends Component {
                   </td>
                   <td style={{ textAlign: "right" }}>
                     {this.state.showBeerEditFormForBeerWithId === beerId &&
-                    this.state.isBeerEditFormShown == false ? (
+                    this.state.isBeerEditFormShown === false ? (
                       <button
                         className="pt-button pt-icon-floppy-disk pt-minimal"
                         form="beerEditForm"
@@ -276,7 +275,8 @@ class AddBeer extends Component {
                       </button>
                     ) : null}
                     <button
-                      className="pt-button pt-icon-edit pt-minimal"
+                      className="pt-button pt-icon-edit"
+                      style={{ marginRight: "10px" }}
                       onClick={() => {
                         this.showBeerEditForm(
                           beerId,
@@ -289,7 +289,7 @@ class AddBeer extends Component {
                       }}
                     />
                     <button
-                      className="pt-button pt-icon-delete pt-minimal"
+                      className="pt-button pt-icon-delete"
                       onClick={() => this.removeBeer(beer.id)}
                     />
                   </td>
