@@ -27,7 +27,7 @@ class Registration extends Component {
     debugger;
     axios
       .post(
-      "http://localhost:8000/register",
+      "https://localhost:8000/register",
       {
         name,
         email,
