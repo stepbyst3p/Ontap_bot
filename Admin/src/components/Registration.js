@@ -27,19 +27,19 @@ class Registration extends Component {
     debugger;
     axios
       .post(
-        "http://localhost:8000/register",
-        {
-          name,
-          email,
-          barTitle,
-          barCity,
-          barAddress
-        },
-        {
-          headers: {
-            "Content-Type": "application/json"
-          }
+      "https://localhost:8000/register",
+      {
+        name,
+        email,
+        barTitle,
+        barCity,
+        barAddress
+      },
+      {
+        headers: {
+          "Content-Type": "application/json"
         }
+      }
       )
       .then(result => {
         this.toaster.show({
