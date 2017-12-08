@@ -34,12 +34,12 @@ class Registration extends Component {
         barTitle,
         barCity,
         barAddress
-      },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
       }
+      // {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data"
+      //   }
+      // }
       )
       .then(result => {
         this.toaster.show({
