@@ -27,7 +27,7 @@ app.listen(port, () => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.post("/register", (req, res) => {
+app.post("/registration", (req, res) => {
   console.log({ req });
   const {
     email = "",
@@ -55,9 +55,9 @@ app.post("/register", (req, res) => {
       text: "Hello world?",
       html: `<b>Имя: </b>${name}<br/><b>Email: </b>${
         email
-      }<br/><b>Название: </b>${barTitle}<br/><b>Город: </b>${
+        }<br/><b>Название: </b>${barTitle}<br/><b>Город: </b>${
         barCity
-      }<br/><b>Адрес: </b>${barAddress}`
+        }<br/><b>Адрес: </b>${barAddress}`
     };
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -74,7 +74,7 @@ app.post("/bars", (req, res) => {
     latitude: req.body.lat,
     longitude: req.body.lng
   };
-  ref.once("value", function(snapshot) {
+  ref.once("value", function (snapshot) {
     const Data = snapshot.val();
 
     const obj = Object.values(Data).map(x => x.bars);
@@ -86,7 +86,7 @@ app.post("/bars", (req, res) => {
     });
     let result = barsCollection.map(a => a.geocode);
     let resultishe = [].concat.apply([], barsCollection);
-    let geocodes = resultishe.reduce(function(acc, x) {
+    let geocodes = resultishe.reduce(function (acc, x) {
       for (var key in x) acc[key] = x[key];
       return acc;
     }, {});
@@ -118,7 +118,7 @@ app.post("/bars", (req, res) => {
 app.post("/beers", (req, res) => {
   const barTitle = req.body.barTitle;
   console.log(barTitle);
-  ref.once("value", function(snapshot) {
+  ref.once("value", function (snapshot) {
     if (snapshot.val().length > 0) {
       const Data = snapshot.val();
       const obj = Object.values(Data).map(x => x.bars);
