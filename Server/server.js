@@ -27,7 +27,7 @@ app.listen(port, () => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.post("/registration", (req, res) => {
+app.get("/registration", (req, res) => {
   console.log({ req });
   const {
     email = "",

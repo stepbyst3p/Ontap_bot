@@ -26,7 +26,7 @@ class Registration extends Component {
     const { name, email, barTitle, barCity, barAddress } = this.state;
     debugger;
     axios
-      .post(
+      .get(
       "/registration",
       {
         name,
