@@ -26,7 +26,7 @@ class Registration extends Component {
     const { name, email, barTitle, barCity, barAddress } = this.state;
     debugger;
     axios
-      .get(
+      .post(
       "/registration",
       {
         name,
@@ -37,7 +37,7 @@ class Registration extends Component {
       },
       {
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "multipart/form-data"
         }
       }
       )
