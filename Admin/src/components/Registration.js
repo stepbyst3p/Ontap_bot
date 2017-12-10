@@ -25,28 +25,16 @@ class Registration extends Component {
     e.preventDefault();
     const { name, email, barTitle, barCity, barAddress } = this.state;
     debugger;
-    fetch(
-      "/registration",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "same-origin",
-        body: {
-          name,
-          email,
-          barTitle,
-          barCity,
-          barAddress
-        }
+    fetch("/registration", {
+      method: "POST",
+      body: {
+        name,
+        email,
+        barTitle,
+        barCity,
+        barAddress
       }
-      // {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data"
-      //   }
-      // }
-    ).then(result => {
+    }).then(result => {
       this.toaster.show({
         intent: Intent.SUCCESS,
         message:
