@@ -27,7 +27,7 @@ class Registration extends Component {
     debugger;
     fetch("/registration", {
       method: "POST",
-      headers: { 'content-type': 'application/json' },
+      headers: { "content-type": "application/json" },
       body: {
         name,
         email,
@@ -36,14 +36,17 @@ class Registration extends Component {
         barAddress
       }
     }).then(result => {
-      this.toaster.show({
-        intent: Intent.SUCCESS,
-        message:
-          "Заявка на регистрацию успешно отправлена. Мы свяжемся с вами, как только проверим все данные"
-      })
-      }).then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => { console.log(err); });
+      this.toaster
+        .show({
+          intent: Intent.SUCCESS,
+          message:
+            "Заявка на регистрацию успешно отправлена. Мы свяжемся с вами, как только проверим все данные"
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => {
+          console.log(err);
+        });
       this.setState({
         requestStatus: "sended"
       });
