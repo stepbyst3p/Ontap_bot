@@ -5,11 +5,10 @@ const db = require("./config/db");
 const distance = require("gps-distance");
 const cors = require("cors");
 const app = express();
-app.use(cors());
 const _ = require("lodash");
 const geolib = require("geolib");
 const nodemailer = require("nodemailer");
-
+app.use(cors());
 // const firebase = require("./config/firebase");
 const admin = require("firebase-admin");
 const serviceAccount = require("./config/firebase_key.json");
@@ -53,11 +52,7 @@ app.post("/registration", (req, res) => {
       to: "spikerdn@gmail.com",
       subject: "Новая заявка ✔",
       text: "Hello world?",
-      html: `<b>Имя: </b>${name}<br/><b>Email: </b>${
-        email
-        }<br/><b>Название: </b>${barTitle}<br/><b>Город: </b>${
-        barCity
-        }<br/><b>Адрес: </b>${barAddress}`
+      html: `<b>Имя: </b>${name}<br/><b>Email: </b>${email}<br/><b>Название: </b>${barTitle}<br/><b>Город: </b>${barCity}<br/><b>Адрес: </b>${barAddress}`
     };
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -74,7 +69,7 @@ app.post("/bars", (req, res) => {
     latitude: req.body.lat,
     longitude: req.body.lng
   };
-  ref.once("value", function (snapshot) {
+  ref.once("value", function(snapshot) {
     const Data = snapshot.val();
 
     const obj = Object.values(Data).map(x => x.bars);
@@ -86,7 +81,7 @@ app.post("/bars", (req, res) => {
     });
     let result = barsCollection.map(a => a.geocode);
     let resultishe = [].concat.apply([], barsCollection);
-    let geocodes = resultishe.reduce(function (acc, x) {
+    let geocodes = resultishe.reduce(function(acc, x) {
       for (var key in x) acc[key] = x[key];
       return acc;
     }, {});
@@ -118,7 +113,7 @@ app.post("/bars", (req, res) => {
 app.post("/beers", (req, res) => {
   const barTitle = req.body.barTitle;
   console.log(barTitle);
-  ref.once("value", function (snapshot) {
+  ref.once("value", function(snapshot) {
     if (snapshot.val().length > 0) {
       const Data = snapshot.val();
       const obj = Object.values(Data).map(x => x.bars);
