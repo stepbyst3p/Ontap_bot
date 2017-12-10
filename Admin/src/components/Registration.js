@@ -25,32 +25,37 @@ class Registration extends Component {
     e.preventDefault();
     const { name, email, barTitle, barCity, barAddress } = this.state;
     debugger;
-    axios
-      .post(
+    fetch(
       "/registration",
       {
-        name,
-        email,
-        barTitle,
-        barCity,
-        barAddress
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin",
+        body: {
+          name,
+          email,
+          barTitle,
+          barCity,
+          barAddress
+        }
       }
       // {
       //   headers: {
       //     "Content-Type": "multipart/form-data"
       //   }
       // }
-      )
-      .then(result => {
-        this.toaster.show({
-          intent: Intent.SUCCESS,
-          message:
-            "Заявка на регистрацию успешно отправлена. Мы свяжемся с вами, как только проверим все данные"
-        });
-        this.setState({
-          requestStatus: "sended"
-        });
+    ).then(result => {
+      this.toaster.show({
+        intent: Intent.SUCCESS,
+        message:
+          "Заявка на регистрацию успешно отправлена. Мы свяжемся с вами, как только проверим все данные"
       });
+      this.setState({
+        requestStatus: "sended"
+      });
+    });
   };
 
   render() {
