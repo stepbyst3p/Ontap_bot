@@ -40,20 +40,21 @@ class Registration extends Component {
         barCity,
         barAddress
       }
-    }).then(result => {
-      this.toaster
-        .show({
+    })
+      .then(result => {
+        this.toaster.show({
           intent: Intent.SUCCESS,
           message:
             "Заявка на регистрацию успешно отправлена. Мы свяжемся с вами, как только проверим все данные"
-        })
-        .catch(err => {
-          console.log(err);
         });
-      this.setState({
-        requestStatus: "sended"
+        this.setState({
+          requestStatus: "sended"
+        });
+      })
+      .then(data => console.log(data))
+      .catch(err => {
+        console.log(err);
       });
-    });
   };
 
   render() {
