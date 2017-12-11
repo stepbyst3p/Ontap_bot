@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Toaster, Intent } from "@blueprintjs/core";
 import axios from "axios";
+import cors from "cors";
 
 class Registration extends Component {
   constructor() {
