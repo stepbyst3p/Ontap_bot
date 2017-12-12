@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Dragula from 'react-dragula';
+import Dragula from "react-dragula";
 import { app } from "../base";
 
 class AddBeer extends Component {
@@ -43,9 +43,9 @@ class AddBeer extends Component {
     const beerRef = app
       .database()
       .ref(
-      `users/${this.props.userUid}/bars/${this.props.barId}/beers/${
-      this.state.showBeerEditFormForBeerWithId
-      }`
+        `users/${this.props.userUid}/bars/${this.props.barId}/beers/${
+          this.state.showBeerEditFormForBeerWithId
+        }`
       );
     debugger;
     const beerTitle = this.state.EditingBeerTitle;
@@ -89,7 +89,7 @@ class AddBeer extends Component {
       });
     });
   }
-  dragulaDecorator = (componentBackingInstance) => {
+  dragulaDecorator = componentBackingInstance => {
     if (componentBackingInstance) {
       let options = {};
       Dragula([componentBackingInstance], options);
@@ -99,7 +99,7 @@ class AddBeer extends Component {
     const beerRef = app
       .database()
       .ref(
-      `users/${this.props.userUid}/bars/${this.props.barId}/beers/${beerId}`
+        `users/${this.props.userUid}/bars/${this.props.barId}/beers/${beerId}`
       );
     beerRef.remove();
   }
@@ -181,29 +181,35 @@ class AddBeer extends Component {
             </button>
           </form>
         </div>
-
-        <table className="pt-table" style={{ width: "100%" }}>
-          <thead>
-            <tr>
-              <th>№</th>
-              <th>Name</th>
-              <th>Brewery</th>
-              <th>Style</th>
-              <th>ABV (%)</th>
-            </tr>
-          </thead>
-          <tbody ref={this.dragulaDecorator}>
-            {this.state.beers.map((beer, index) => {
-              let beerId = beer.id;
-              let beerTitle = beer.beerTitle;
-              let beerBrewery = beer.beerBrewery;
-              let beerStyle = beer.beerStyle;
-              let beerAlc = beer.beerAlc;
-              return (
-                <tr key={index}>
-                  <td>{index}</td>
-                  <td>
-                    {this.state.showBeerEditFormForBeerWithId === beerId &&
+        <div class="Beers">
+          <div class="BeersHeader flex-container">
+            <div className="flex-item">№</div>
+            <div className="flex-item">Name</div>
+            <div className="flex-item">Brewery</div>
+            <div className="flex-item">Style</div>
+            <div className="flex-item">ABV (%)</div>
+          </div>
+          <div className="BeerList">
+            <div className="BeerNumbers">
+              {this.state.beers.map((beer, index) => {
+                return (
+                  <div className="number" key={index}>
+                    {index + 1}
+                  </div>
+                );
+              })};
+            </div>
+            <div className="BeerItems" ref={this.dragulaDecorator}>
+              {this.state.beers.map((beer, index) => {
+                let beerId = beer.id;
+                let beerTitle = beer.beerTitle;
+                let beerBrewery = beer.beerBrewery;
+                let beerStyle = beer.beerStyle;
+                let beerAlc = beer.beerAlc;
+                return (
+                  <div className="BeerItem" key={index}>
+                    <div class="BeerTitle">
+                      {this.state.showBeerEditFormForBeerWithId === beerId &&
                       this.state.isBeerEditFormShown === false ? (
                         <input
                           type="text"
@@ -218,9 +224,9 @@ class AddBeer extends Component {
                       ) : (
                         beer.beerTitle
                       )}
-                  </td>
-                  <td>
-                    {this.state.showBeerEditFormForBeerWithId === beerId &&
+                    </div>
+                    <div class="BeerBrewery">
+                      {this.state.showBeerEditFormForBeerWithId === beerId &&
                       this.state.isBeerEditFormShown === false ? (
                         <input
                           type="text"
@@ -235,9 +241,9 @@ class AddBeer extends Component {
                       ) : (
                         beer.beerBrewery
                       )}
-                  </td>
-                  <td>
-                    {this.state.showBeerEditFormForBeerWithId === beerId &&
+                    </div>
+                    <div class="BeerStyle">
+                      {this.state.showBeerEditFormForBeerWithId === beerId &&
                       this.state.isBeerEditFormShown === false ? (
                         <input
                           type="text"
@@ -252,9 +258,9 @@ class AddBeer extends Component {
                       ) : (
                         beer.beerStyle
                       )}
-                  </td>
-                  <td>
-                    {this.state.showBeerEditFormForBeerWithId === beerId &&
+                    </div>
+                    <div class="BeerABV">
+                      {this.state.showBeerEditFormForBeerWithId === beerId &&
                       this.state.isBeerEditFormShown === false ? (
                         <input
                           type="number"
@@ -270,41 +276,66 @@ class AddBeer extends Component {
                       ) : (
                         beer.beerAlc
                       )}
-                  </td>
-                  <td style={{ textAlign: "right" }}>
-                    {this.state.showBeerEditFormForBeerWithId === beerId &&
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      {this.state.showBeerEditFormForBeerWithId === beerId &&
                       this.state.isBeerEditFormShown === false ? (
                         <button
                           className="pt-button pt-icon-floppy-disk pt-minimal"
                           form="beerEditForm"
                         >
                           Сохранить
-                      </button>
+                        </button>
                       ) : null}
-                    <button
-                      className="pt-button pt-icon-edit"
-                      style={{ marginRight: "10px" }}
-                      onClick={() => {
-                        this.showBeerEditForm(
-                          beerId,
-                          beerTitle,
-                          beerBrewery,
-                          beerStyle,
-                          beerAlc
-                        );
-                        console.log(beerId, beerTitle);
-                      }}
-                    />
-                    <button
-                      className="pt-button pt-icon-delete"
-                      onClick={() => this.removeBeer(beer.id)}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                      <button
+                        className="pt-button pt-icon-edit"
+                        style={{ marginRight: "10px" }}
+                        onClick={() => {
+                          this.showBeerEditForm(
+                            beerId,
+                            beerTitle,
+                            beerBrewery,
+                            beerStyle,
+                            beerAlc
+                          );
+                          console.log(beerId, beerTitle);
+                        }}
+                      />
+                      <button
+                        className="pt-button pt-icon-delete"
+                        onClick={() => this.removeBeer(beer.id)}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+        {/* <div className="flex-container barBeers">
+          <div className="flex-item beerNum">#</div>
+          <div className="flex-item beerList">
+            <div className="flex-container beerList-header">
+              <div className="flex-item">asd</div>
+              <div className="flex-item">asd</div>
+              <div className="flex-item">asd</div>
+              <div className="flex-item">asd</div>
+              <div className="flex-item">asd</div>
+            </div>
+          </div>
+        </div>
+        <table className="pt-table" style={{ width: "100%" }}>
+          <thead>
+            <tr>
+              <th>№</th>
+              <th>Name</th>
+              <th>Brewery</th>
+              <th>Style</th>
+              <th>ABV (%)</th>
+            </tr>
+          </thead>
+          
+        </table> */}
         <form
           id="beerEditForm"
           onSubmit={event => {
