@@ -51,7 +51,6 @@ class Registration extends Component {
           requestStatus: "sended"
         });
       })
-      .then(data => console.log(data))
       .catch(err => {
         console.log(err);
       });
