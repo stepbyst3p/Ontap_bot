@@ -35,6 +35,32 @@ app.post("/registration", (req, res) => {
     barCity = "",
     barAddress = ""
   } = req.body;
+
+  nodemailer.createTestAccount((err, account) => {
+    let transporter = nodemailer.createTransport({
+      host: "smtp.yandex.ru",
+      port: 465,
+      secure: true,
+      auth: {
+        user: "lttasap",
+        pass: "fck1ng00dp45"
+      }
+    });
+
+    let mailOptions = {
+      from: `${barTitle}"🍺" <lttasap@yandex.ru>`,
+      to: "spikerdn@gmail.com",
+      subject: "Новая заявка ✔",
+      text: "Hello world?",
+      html: `<b>Имя: </b>${name}<br/><b>Email: </b>${email}<br/><b>Название: </b>${barTitle}<br/><b>Город: </b>${barCity}<br/><b>Адрес: </b>${barAddress}`
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      res.send("success");
+    });
+  });
 });
 
 app.post("/bars", (req, res) => {
