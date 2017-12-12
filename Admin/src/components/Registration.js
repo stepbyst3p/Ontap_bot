@@ -23,9 +23,9 @@ class Registration extends Component {
     });
   };
   handleSubmitForm = e => {
+    debugger;
     e.preventDefault();
     const { name, email, barTitle, barCity, barAddress } = this.state;
-    debugger;
     fetch("/registration", {
       method: "POST",
       mode: cors,
