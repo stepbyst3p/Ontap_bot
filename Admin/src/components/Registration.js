@@ -28,11 +28,9 @@ class Registration extends Component {
     const { name, email, barTitle, barCity, barAddress } = this.state;
     fetch("/registration", {
       method: "POST",
-      mode: cors,
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/x-www-form-unicoded"
       },
-      credentials: "same-origin",
       body: {
         name,
         email,
