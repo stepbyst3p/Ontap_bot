@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Dragula from "react-dragula";
 import { app } from "../base";
+import flexboxgrid from "flexboxgrid";
 
 class AddBeer extends Component {
   constructor() {
@@ -181,146 +182,150 @@ class AddBeer extends Component {
             </button>
           </form>
         </div>
-        <div class="Beers">
-          <div class="BeersHeader flex-container">
-            <div className="flex-item">№</div>
-            <div className="flex-item">Name</div>
-            <div className="flex-item">Brewery</div>
-            <div className="flex-item">Style</div>
-            <div className="flex-item">ABV (%)</div>
-          </div>
-          <div className="BeerList">
-            <div className="BeerNumbers">
+        <div className="Beers">
+          <div className="BeerList row">
+            <div className="BeerNumbers col-md-1">
+              №
               {this.state.beers.map((beer, index) => {
                 return (
                   <div className="number" key={index}>
-                    {index + 1}
-                  </div>
-                );
-              })};
-            </div>
-            <div className="BeerItems" ref={this.dragulaDecorator}>
-              {this.state.beers.map((beer, index) => {
-                let beerId = beer.id;
-                let beerTitle = beer.beerTitle;
-                let beerBrewery = beer.beerBrewery;
-                let beerStyle = beer.beerStyle;
-                let beerAlc = beer.beerAlc;
-                return (
-                  <div className="BeerItem" key={index}>
-                    <div class="BeerTitle">
-                      {this.state.showBeerEditFormForBeerWithId === beerId &&
-                      this.state.isBeerEditFormShown === false ? (
-                        <input
-                          type="text"
-                          name="EditingBeerTitle"
-                          className="pt-input "
-                          placeholder="Name"
-                          onChange={this.handleChangeEditBeerForm}
-                          value={this.state.EditingBeerTitle}
-                          required
-                          form="beerEditForm"
-                        />
-                      ) : (
-                        beer.beerTitle
-                      )}
-                    </div>
-                    <div class="BeerBrewery">
-                      {this.state.showBeerEditFormForBeerWithId === beerId &&
-                      this.state.isBeerEditFormShown === false ? (
-                        <input
-                          type="text"
-                          className="pt-input "
-                          name="EditingBeerBrewery"
-                          placeholder="Brewery"
-                          onChange={this.handleChangeEditBeerForm}
-                          value={this.state.EditingBeerBrewery}
-                          required
-                          form="beerEditForm"
-                        />
-                      ) : (
-                        beer.beerBrewery
-                      )}
-                    </div>
-                    <div class="BeerStyle">
-                      {this.state.showBeerEditFormForBeerWithId === beerId &&
-                      this.state.isBeerEditFormShown === false ? (
-                        <input
-                          type="text"
-                          className="pt-input "
-                          name="EditingBeerStyle"
-                          placeholder="Style"
-                          onChange={this.handleChangeEditBeerForm}
-                          value={this.state.EditingBeerStyle}
-                          required
-                          form="beerEditForm"
-                        />
-                      ) : (
-                        beer.beerStyle
-                      )}
-                    </div>
-                    <div class="BeerABV">
-                      {this.state.showBeerEditFormForBeerWithId === beerId &&
-                      this.state.isBeerEditFormShown === false ? (
-                        <input
-                          type="number"
-                          className="pt-input "
-                          name="EditingBeerAlc"
-                          placeholder="ABV"
-                          onChange={this.handleChangeEditBeerForm}
-                          value={this.state.EditingBeerAlc}
-                          required
-                          form="beerEditForm"
-                          step="any"
-                        />
-                      ) : (
-                        beer.beerAlc
-                      )}
-                    </div>
-                    <div style={{ textAlign: "right" }}>
-                      {this.state.showBeerEditFormForBeerWithId === beerId &&
-                      this.state.isBeerEditFormShown === false ? (
-                        <button
-                          className="pt-button pt-icon-floppy-disk pt-minimal"
-                          form="beerEditForm"
-                        >
-                          Сохранить
-                        </button>
-                      ) : null}
-                      <button
-                        className="pt-button pt-icon-edit"
-                        style={{ marginRight: "10px" }}
-                        onClick={() => {
-                          this.showBeerEditForm(
-                            beerId,
-                            beerTitle,
-                            beerBrewery,
-                            beerStyle,
-                            beerAlc
-                          );
-                          console.log(beerId, beerTitle);
-                        }}
-                      />
-                      <button
-                        className="pt-button pt-icon-delete"
-                        onClick={() => this.removeBeer(beer.id)}
-                      />
-                    </div>
+                    <span>{index + 1}</span>
                   </div>
                 );
               })}
             </div>
+            <div className="col-md-11">
+              <div className="BeersHeader row">
+                <div className="col-md-2">Name</div>
+                <div className="col-md-2">Brewery</div>
+                <div className="col-md-2">Style</div>
+                <div className="col-md-2">ABV (%)</div>
+              </div>
+
+              <div className="BeerItems" ref={this.dragulaDecorator}>
+                {this.state.beers.map((beer, index) => {
+                  let beerId = beer.id;
+                  let beerTitle = beer.beerTitle;
+                  let beerBrewery = beer.beerBrewery;
+                  let beerStyle = beer.beerStyle;
+                  let beerAlc = beer.beerAlc;
+                  return (
+                    <div className="BeerItem row" key={index}>
+                      <div className="BeerTitle col-md-2">
+                        {this.state.showBeerEditFormForBeerWithId === beerId &&
+                        this.state.isBeerEditFormShown === false ? (
+                          <input
+                            type="text"
+                            name="EditingBeerTitle"
+                            className="pt-input "
+                            placeholder="Name"
+                            onChange={this.handleChangeEditBeerForm}
+                            value={this.state.EditingBeerTitle}
+                            required
+                            form="beerEditForm"
+                          />
+                        ) : (
+                          beer.beerTitle
+                        )}
+                      </div>
+                      <div className="BeerBrewery col-md-2">
+                        {this.state.showBeerEditFormForBeerWithId === beerId &&
+                        this.state.isBeerEditFormShown === false ? (
+                          <input
+                            type="text"
+                            className="pt-input "
+                            name="EditingBeerBrewery"
+                            placeholder="Brewery"
+                            onChange={this.handleChangeEditBeerForm}
+                            value={this.state.EditingBeerBrewery}
+                            required
+                            form="beerEditForm"
+                          />
+                        ) : (
+                          beer.beerBrewery
+                        )}
+                      </div>
+                      <div className="BeerStyle col-md-2">
+                        {this.state.showBeerEditFormForBeerWithId === beerId &&
+                        this.state.isBeerEditFormShown === false ? (
+                          <input
+                            type="text"
+                            className="pt-input "
+                            name="EditingBeerStyle"
+                            placeholder="Style"
+                            onChange={this.handleChangeEditBeerForm}
+                            value={this.state.EditingBeerStyle}
+                            required
+                            form="beerEditForm"
+                          />
+                        ) : (
+                          beer.beerStyle
+                        )}
+                      </div>
+                      <div className="BeerABV col-md-2">
+                        {this.state.showBeerEditFormForBeerWithId === beerId &&
+                        this.state.isBeerEditFormShown === false ? (
+                          <input
+                            type="number"
+                            className="pt-input "
+                            name="EditingBeerAlc"
+                            placeholder="ABV"
+                            onChange={this.handleChangeEditBeerForm}
+                            value={this.state.EditingBeerAlc}
+                            required
+                            form="beerEditForm"
+                            step="any"
+                          />
+                        ) : (
+                          beer.beerAlc
+                        )}
+                      </div>
+                      <div style={{ textAlign: "right" }} className="col-md-4">
+                        {this.state.showBeerEditFormForBeerWithId === beerId &&
+                        this.state.isBeerEditFormShown === false ? (
+                          <button
+                            className="pt-button pt-icon-floppy-disk pt-minimal"
+                            form="beerEditForm"
+                          >
+                            Сохранить
+                          </button>
+                        ) : null}
+                        <button
+                          className="pt-button pt-icon-edit"
+                          style={{ marginRight: "10px" }}
+                          onClick={() => {
+                            this.showBeerEditForm(
+                              beerId,
+                              beerTitle,
+                              beerBrewery,
+                              beerStyle,
+                              beerAlc
+                            );
+                            console.log(beerId, beerTitle);
+                          }}
+                        />
+                        <button
+                          className="pt-button pt-icon-delete"
+                          onClick={() => this.removeBeer(beer.id)}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
+
         {/* <div className="flex-container barBeers">
-          <div className="flex-item beerNum">#</div>
-          <div className="flex-item beerList">
+          <div className="col-md-2 beerNum">#</div>
+          <div className="col-md-2 beerList">
             <div className="flex-container beerList-header">
-              <div className="flex-item">asd</div>
-              <div className="flex-item">asd</div>
-              <div className="flex-item">asd</div>
-              <div className="flex-item">asd</div>
-              <div className="flex-item">asd</div>
+              <div className="col-md-2">asd</div>
+              <div className="col-md-2">asd</div>
+              <div className="col-md-2">asd</div>
+              <div className="col-md-2">asd</div>
+              <div className="col-md-2">asd</div>
             </div>
           </div>
         </div>
