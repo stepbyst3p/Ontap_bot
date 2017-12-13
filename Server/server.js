@@ -48,8 +48,8 @@ app.post("/registration", (req, res) => {
     });
 
     let mailOptions = {
-      from: `${barTitle} "🍺" <lttasap@yandex.ru>`,
-      to: "info@ontap.online, spikerdn@gmail.com",
+      from: `${barTitle} "🍺" <info@ontap.online>`,
+      to: "spikerdn@gmail.com",
       subject: "Новая заявка ✔",
       text: "Hello world?",
       html: `<b>Имя: </b>${name}<br/><b>Email: </b>${email}<br/><b>Название: </b>${barTitle}<br/><b>Город: </b>${barCity}<br/><b>Адрес: </b>${barAddress}`
