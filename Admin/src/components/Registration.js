@@ -26,6 +26,7 @@ class Registration extends Component {
     e.preventDefault();
 
     const { name, email, barTitle, barCity, barAddress } = this.state;
+    console.log(this.state);
     fetch("/registration", {
       method: "POST",
       headers: {
@@ -54,8 +55,7 @@ class Registration extends Component {
       .catch(err => {
         console.log(err);
       });
-    debugger;
-    console.log("suka ya zdes");
+    console.log(this.state);
   };
 
   render() {
