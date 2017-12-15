@@ -21,12 +21,12 @@ class Registration extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
+    console.log(this.state);
   };
   handleSubmitForm = e => {
     e.preventDefault();
 
     const { name, email, barTitle, barCity, barAddress } = this.state;
-    console.log(this.state);
     fetch("/registration", {
       method: "POST",
       headers: {
