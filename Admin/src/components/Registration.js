@@ -24,8 +24,7 @@ class Registration extends Component {
   };
   handleSubmitForm = e => {
     e.preventDefault();
-    debugger;
-    console.log("suka ya zdes");
+
     const { name, email, barTitle, barCity, barAddress } = this.state;
     fetch("/registration", {
       method: "POST",
@@ -55,6 +54,8 @@ class Registration extends Component {
       .catch(err => {
         console.log(err);
       });
+    debugger;
+    console.log("suka ya zdes");
   };
 
   render() {
