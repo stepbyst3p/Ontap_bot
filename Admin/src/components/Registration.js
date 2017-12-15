@@ -21,12 +21,13 @@ class Registration extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    console.log(this.state);
   };
   handleSubmitForm = e => {
     e.preventDefault();
 
     const { name, email, barTitle, barCity, barAddress } = this.state;
+    debugger;
+    console.log(this.state);
     fetch("/registration", {
       method: "POST",
       headers: {
@@ -55,7 +56,6 @@ class Registration extends Component {
       .catch(err => {
         console.log(err);
       });
-    console.log(this.state);
   };
 
   render() {
