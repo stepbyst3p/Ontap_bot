@@ -29,9 +29,8 @@ class Registration extends Component {
     fetch("/registration", {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "x-www-form-urlencoded"
       },
-      credentials: "same-origin",
       body: {
         name,
         email,
