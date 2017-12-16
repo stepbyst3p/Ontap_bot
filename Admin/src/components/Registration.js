@@ -41,7 +41,8 @@ class Registration extends Component {
         barAddress
       }
     })
-      .then(result => {
+      .then(res => {
+        console.log(res);
         this.toaster.show({
           intent: Intent.SUCCESS,
           message:
