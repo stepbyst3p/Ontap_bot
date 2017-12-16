@@ -30,12 +30,9 @@ class Registration extends Component {
     console.log(this.state);
     fetch("/registration", {
       method: "POST",
-      cors: cors,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cache-Control": "no-cache"
+        "Content-Type": "application/json"
       },
-      credentials: "same-origin",
       body: {
         name,
         email,
