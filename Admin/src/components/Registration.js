@@ -36,13 +36,13 @@ class Registration extends Component {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: {
+      body: JSON.stringify({
         name,
         email,
         barTitle,
         barCity,
         barAddress
-      }
+      })
     })
       .then(res => {
         console.log(res);
