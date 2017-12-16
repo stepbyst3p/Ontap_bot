@@ -31,9 +31,10 @@ class Registration extends Component {
     fetch("/registration", {
       method: "post",
       credentials: "include",
+      mode: cors,
       headers: {
-        Accept: "application/json, application/xml, text/plain, text/html, *.*",
-        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+        "Content-Type": "application/json",
+        Accept: "application/json"
       },
       body: {
         name,
