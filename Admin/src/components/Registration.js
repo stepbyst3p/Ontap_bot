@@ -27,11 +27,21 @@ class Registration extends Component {
 
     const { name, email, barTitle, barCity, barAddress } = this.state;
     debugger;
-    const data = new FormData(e.target);
-
+    console.log(this.state);
     fetch("/registration", {
-      method: "POST",
-      body: data
+      method: "post",
+      credentials: "include",
+      headers: {
+        Accept: "application/json, application/xml, text/plain, text/html, *.*",
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      },
+      body: {
+        name,
+        email,
+        barTitle,
+        barCity,
+        barAddress
+      }
     })
       .then(res => {
         console.log(res);
