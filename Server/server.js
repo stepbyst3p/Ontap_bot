@@ -38,18 +38,18 @@ app.post("/registration", (req, res) => {
 
   nodemailer.createTestAccount((err, account) => {
     let transporter = nodemailer.createTransport({
-      host: "smtp.yandex.ru",
+      host: "smtp.mail.ru",
       port: 465,
       secure: true,
       auth: {
-        user: "lttasap",
-        pass: "fck1ng00dp45"
+        user: "mailsender@ontap.online",
+        pass: "s3nder"
       }
     });
 
     let mailOptions = {
-      from: `${barTitle} "🍺" <lttasap@yandex.ru>`,
-      to: "spikerdn@gmail.com",
+      from: `${barTitle} "🍺" <mailsender@ontap.online>`,
+      to: "spikerdn@gmail.com, info@ontap.online",
       subject: "Новая заявка ✔",
       text: "Hello world?",
       html: `<b>Имя: </b>${name}<br/><b>Email: </b>${email}<br/><b>Название: </b>${barTitle}<br/><b>Город: </b>${barCity}<br/><b>Адрес: </b>${barAddress}`
