@@ -11,7 +11,7 @@ const headers = {
 };
 
 const optionsBeers = {
-  url: "/beers",
+  url: "http://localhost:8000/beers",
   method: "POST",
   headers: headers,
   form: { barTitle: "" },
@@ -40,7 +40,7 @@ bot.on("location", msg => {
   const chatId = msg.chat.id;
 
   const optionsBars = {
-    url: "/bars",
+    url: "http://localhost:8000/bars",
     method: "POST",
     headers: headers,
     form: { lat: msg.location.latitude, lng: msg.location.longitude },
@@ -69,32 +69,24 @@ bot.on("location", msg => {
         .then(() => {
           bot.once("message", answer => {
             request.post(
-              "/beers",
+              "http://localhost:8000/beers",
               { form: { barTitle: answer.text } },
               function(error, response, body) {
-                if (body === "empty") {
-                  bot.sendMessage(
-                    chatId,
-                    "Этот бар пока не опубликовал список пива",
-                    markDownOption
-                  );
-                } else {
-                  const prettyBeerList = _.map(
-                    JSON.parse(body),
-                    (beer, title) => {
-                      console.log({ beer });
-                      return `${emoji.beer} ${beer.title}\nПивоварня: ${
-                        beer.brewery
-                      }\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}%`;
-                    }
-                  );
-                  console.log(prettyBeerList);
-                  bot.sendMessage(
-                    chatId,
-                    prettyBeerList.join("\n\n"),
-                    markDownOption
-                  );
-                }
+                const prettyBeerList = _.map(
+                  JSON.parse(body),
+                  (beer, title) => {
+                    console.log({ beer });
+                    return `${emoji.beer} ${beer.title}\nПивоварня: ${
+                      beer.brewery
+                    }\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}%`;
+                  }
+                );
+                console.log(prettyBeerList);
+                bot.sendMessage(
+                  chatId,
+                  prettyBeerList.join("\n\n"),
+                  markDownOption
+                );
               }
             );
           });
