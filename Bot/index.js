@@ -11,7 +11,7 @@ const headers = {
 };
 
 const optionsBeers = {
-  url: "http://localhost:8000/beers",
+  url: "/beers",
   method: "POST",
   headers: headers,
   form: { barTitle: "" },
@@ -40,7 +40,7 @@ bot.on("location", msg => {
   const chatId = msg.chat.id;
 
   const optionsBars = {
-    url: "http://localhost:8000/bars",
+    url: "/bars",
     method: "POST",
     headers: headers,
     form: { lat: msg.location.latitude, lng: msg.location.longitude },
@@ -69,7 +69,7 @@ bot.on("location", msg => {
         .then(() => {
           bot.once("message", answer => {
             request.post(
-              "http://localhost:8000/beers",
+              "/beers",
               { form: { barTitle: answer.text } },
               function(error, response, body) {
                 if (body === "empty") {
