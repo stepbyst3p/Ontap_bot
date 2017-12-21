@@ -29,13 +29,7 @@ bot.onText(/\/echo (.+)/, (msg, match) => {
 
   bot.sendMessage(chatId, resp);
 });
-// bot.on("text", msg => {
-//   const chatId = msg.chat.id;
-//   bot.sendMessage(
-//     chatId,
-//     "Бот слишком пьян, чтобы разговаривать. Лучше отправьте геолокацию"
-//   );
-// });
+
 bot.on("location", msg => {
   const chatId = msg.chat.id;
 
@@ -47,6 +41,7 @@ bot.on("location", msg => {
     agent: false,
     pool: { maxSockets: 100 }
   };
+  console.log(msg.location);
   request(optionsBars, function(error, response, body) {
     if (!error) {
       const bars = JSON.parse(body);
@@ -60,6 +55,7 @@ bot.on("location", msg => {
                 callback_data: bar.address
               }
             ];
+            // console.log(button);
             return button;
           })
         })
@@ -72,6 +68,8 @@ bot.on("location", msg => {
               "http://localhost:8000/beers",
               { form: { barTitle: answer.text } },
               function(error, response, body) {
+                console.log(body);
+                console.log(JSON.parse(body));
                 const prettyBeerList = _.map(
                   JSON.parse(body),
                   (beer, title) => {
