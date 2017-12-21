@@ -114,27 +114,23 @@ app.post("/beers", (req, res) => {
   const barTitle = req.body.barTitle;
   console.log(barTitle);
   ref.once("value", function(snapshot) {
-    if (snapshot.val().length > 0) {
-      const Data = snapshot.val();
-      const obj = Object.values(Data).map(x => x.bars);
-      const barsCollection = Object.values(obj).map(x => {
-        let bors = Object.values(x).map(bar => ({
-          title: bar.title,
-          beers: bar.beers
-        }));
-        return bors;
-      });
-      let qwe = [].concat.apply([], barsCollection);
-      const thisBar = _.find(qwe, { title: barTitle });
-      const beerList = _.map(thisBar.beers, beer => ({
-        title: beer.beerTitle,
-        brewery: beer.beerBrewery,
-        style: beer.beerStyle,
-        alc: beer.beerAlc
+    const Data = snapshot.val();
+    const obj = Object.values(Data).map(x => x.bars);
+    const barsCollection = Object.values(obj).map(x => {
+      let bors = Object.values(x).map(bar => ({
+        title: bar.title,
+        beers: bar.beers
       }));
-      res.send(beerList);
-    } else {
-      res.send("empty");
-    }
+      return bors;
+    });
+    let qwe = [].concat.apply([], barsCollection);
+    const thisBar = _.find(qwe, { title: barTitle });
+    const beerList = _.map(thisBar.beers, beer => ({
+      title: beer.beerTitle,
+      brewery: beer.beerBrewery,
+      style: beer.beerStyle,
+      alc: beer.beerAlc
+    }));
+    res.send(beerList);
   });
 });
