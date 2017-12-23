@@ -105,8 +105,9 @@ app.post("/bars", (req, res) => {
       result4: _.find(qwe, { address: sortedGeocodes[3].key }),
       result5: _.find(qwe, { address: sortedGeocodes[4].key })
     };
-    console.log(meow);
-    res.send(meow);
+    // let pew = {
+    //   result: qwe.slice(1, 5)
+    // }
   });
 });
 
