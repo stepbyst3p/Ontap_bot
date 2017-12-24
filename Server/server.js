@@ -98,13 +98,16 @@ app.post("/bars", (req, res) => {
       return bors;
     });
     let qwe = [].concat.apply([], bars);
-    let meow = {
-      result1: _.find(qwe, { address: sortedGeocodes[0].key }),
-      result2: _.find(qwe, { address: sortedGeocodes[1].key }),
-      result3: _.find(qwe, { address: sortedGeocodes[2].key }),
-      result4: _.find(qwe, { address: sortedGeocodes[3].key }),
-      result5: _.find(qwe, { address: sortedGeocodes[4].key })
-    };
+    let barList = qwe.slice(0, 5);
+    res.send(barList);
+
+    // let meow = {
+    //   result1: _.find(qwe, { address: sortedGeocodes[0].key }),
+    //   result2: _.find(qwe, { address: sortedGeocodes[1].key }),
+    //   result3: _.find(qwe, { address: sortedGeocodes[2].key }),
+    //   result4: _.find(qwe, { address: sortedGeocodes[3].key }),
+    //   result5: _.find(qwe, { address: sortedGeocodes[4].key })
+    // };
     // let pew = {
     //   result: qwe.slice(1, 5)
     // }
