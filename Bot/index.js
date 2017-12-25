@@ -72,22 +72,26 @@ bot.on("location", msg => {
   //     options
   //   );
   // }
-  bot.on("callback_query", answer => {
-    request.post(
-      "http://localhost:8000/beers",
-      { form: { barTitle: answer.text } },
-      function(error, response, body) {
-        console.log(body);
-        console.log(JSON.parse(body));
-        const prettyBeerList = _.map(JSON.parse(body), (beer, title) => {
-          console.log({ beer });
-          return `▪️ ${beer.title}\nПивоварня: ${beer.brewery}\nСтиль: ${
-            beer.style
-          }\nАлкоголь: ${beer.alc}%`;
-        });
-        console.log(prettyBeerList);
-        bot.sendMessage(chatId, prettyBeerList.join("\n\n"), markDownOption);
-      }
-    );
+  bot.on("text", answer => {
+    try {
+      request.post(
+        "http://localhost:8000/beers",
+        { form: { barTitle: answer.text } },
+        function(error, response, body) {
+          console.log(body);
+          console.log(JSON.parse(body));
+          const prettyBeerList = _.map(JSON.parse(body), (beer, title) => {
+            console.log({ beer });
+            return `▪️ ${beer.title}\nПивоварня: ${beer.brewery}\nСтиль: ${
+              beer.style
+            }\nАлкоголь: ${beer.alc}%`;
+          });
+          console.log(prettyBeerList);
+          bot.sendMessage(chatId, prettyBeerList.join("\n\n"), markDownOption);
+        }
+      );
+    } catch (err) {
+      bot.sendMessage(chatId, "Нет такого бара", options);
+    }
   });
 });
