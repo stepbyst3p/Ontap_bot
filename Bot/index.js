@@ -48,7 +48,7 @@ bot.on("location", msg => {
       const bars = JSON.parse(body);
       let options = {
         reply_markup: JSON.stringify({
-          inline_keyboard: _.map(bars, bar => {
+          keyboard: _.map(bars, bar => {
             const button = [
               {
                 text: bar.title,
