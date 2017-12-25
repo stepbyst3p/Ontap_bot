@@ -113,7 +113,8 @@ app.post("/bars", (req, res) => {
       //   result: qwe.slice(1, 5)
       // }
     });
-  } catch {
+  } catch (error) {
+    console.log(error);
     res.send(error);
   }
 });
