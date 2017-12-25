@@ -65,53 +65,57 @@ app.post("/registration", (req, res) => {
 
 app.post("/bars", (req, res) => {
   console.log(req.body);
-  const geo = {
-    latitude: req.body.lat,
-    longitude: req.body.lng
-  };
-  ref.once("value", function(snapshot) {
-    const Data = snapshot.val();
+  try {
+    const geo = {
+      latitude: req.body.lat,
+      longitude: req.body.lng
+    };
+    ref.once("value", function(snapshot) {
+      const Data = snapshot.val();
 
-    const obj = Object.values(Data).map(x => x.bars);
-    const barsCollection = Object.values(obj).map(x => {
-      let bors = Object.values(x).map(bar => ({
-        [bar.address]: bar.geocode
-      }));
-      return bors;
+      const obj = Object.values(Data).map(x => x.bars);
+      const barsCollection = Object.values(obj).map(x => {
+        let bors = Object.values(x).map(bar => ({
+          [bar.address]: bar.geocode
+        }));
+        return bors;
+      });
+      let result = barsCollection.map(a => a.geocode);
+      let resultishe = [].concat.apply([], barsCollection);
+      let geocodes = resultishe.reduce(function(acc, x) {
+        for (var key in x) acc[key] = x[key];
+        return acc;
+      }, {});
+
+      const sortedGeocodes = geolib.orderByDistance(geo, geocodes, 500);
+
+      const bars = Object.values(obj).map(x => {
+        let bors = Object.values(x).map(bar => ({
+          title: bar.title,
+          address: bar.address,
+          geocode: bar.geocode,
+          beers: bar.beers
+        }));
+        return bors;
+      });
+      let qwe = [].concat.apply([], bars);
+      let barList = qwe.slice(0, 5);
+      res.send(barList);
+
+      // let meow = {
+      //   result1: _.find(qwe, { address: sortedGeocodes[0].key }),
+      //   result2: _.find(qwe, { address: sortedGeocodes[1].key }),
+      //   result3: _.find(qwe, { address: sortedGeocodes[2].key }),
+      //   result4: _.find(qwe, { address: sortedGeocodes[3].key }),
+      //   result5: _.find(qwe, { address: sortedGeocodes[4].key })
+      // };
+      // let pew = {
+      //   result: qwe.slice(1, 5)
+      // }
     });
-    let result = barsCollection.map(a => a.geocode);
-    let resultishe = [].concat.apply([], barsCollection);
-    let geocodes = resultishe.reduce(function(acc, x) {
-      for (var key in x) acc[key] = x[key];
-      return acc;
-    }, {});
-
-    const sortedGeocodes = geolib.orderByDistance(geo, geocodes, 500);
-
-    const bars = Object.values(obj).map(x => {
-      let bors = Object.values(x).map(bar => ({
-        title: bar.title,
-        address: bar.address,
-        geocode: bar.geocode,
-        beers: bar.beers
-      }));
-      return bors;
-    });
-    let qwe = [].concat.apply([], bars);
-    let barList = qwe.slice(0, 5);
-    res.send(barList);
-
-    // let meow = {
-    //   result1: _.find(qwe, { address: sortedGeocodes[0].key }),
-    //   result2: _.find(qwe, { address: sortedGeocodes[1].key }),
-    //   result3: _.find(qwe, { address: sortedGeocodes[2].key }),
-    //   result4: _.find(qwe, { address: sortedGeocodes[3].key }),
-    //   result5: _.find(qwe, { address: sortedGeocodes[4].key })
-    // };
-    // let pew = {
-    //   result: qwe.slice(1, 5)
-    // }
-  });
+  } catch {
+    res.send(error);
+  }
 });
 
 app.post("/beers", (req, res) => {
