@@ -42,7 +42,7 @@ bot.on("location", msg => {
     pool: { maxSockets: 100 }
   };
   console.log(msg.location);
-  try {
+  // try {
     request(optionsBars, function(error, response, body) {
       console.log(body);
       const bars = JSON.parse(body);
@@ -61,40 +61,41 @@ bot.on("location", msg => {
         })
       };
       bot
-        .sendMessage(chatId, "Ближайшие бары в радиусе 5 километров:", options)
-        .then(() => {
-          bot.on("message", answer => {
-            request.post(
-              "http://localhost:8000/beers",
-              { form: { barTitle: answer.text } },
-              function(error, response, body) {
-                console.log(body);
-                console.log(JSON.parse(body));
-                const prettyBeerList = _.map(
-                  JSON.parse(body),
-                  (beer, title) => {
-                    console.log({ beer });
-                    return `▪️ ${beer.title}\nПивоварня: ${
-                      beer.brewery
-                    }\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}%`;
-                  }
-                );
-                console.log(prettyBeerList);
-                bot.sendMessage(
-                  chatId,
-                  prettyBeerList.join("\n\n"),
-                  markDownOption
-                );
-              }
-            );
-          });
-        });
+        .sendMessage(chatId, "Ближайшие бары в радиусе 5 километров:", options)ж
+        // .then(() => {
+       
+        // });
     });
-  } catch (err) {
-    bot.sendMessage(
-      chatId,
-      "К сожалению, поблизости нет интересных баров",
-      options
+  // } catch (err) {
+  //   bot.sendMessage(
+  //     chatId,
+  //     "К сожалению, поблизости нет интересных баров",
+  //     options
+  //   );
+  // }
+  bot.on("message", answer => {
+    request.post(
+      "http://localhost:8000/beers",
+      { form: { barTitle: answer.text } },
+      function(error, response, body) {
+        console.log(body);
+        console.log(JSON.parse(body));
+        const prettyBeerList = _.map(
+          JSON.parse(body),
+          (beer, title) => {
+            console.log({ beer });
+            return `▪️ ${beer.title}\nПивоварня: ${
+              beer.brewery
+            }\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}%`;
+          }
+        );
+        console.log(prettyBeerList);
+        bot.sendMessage(
+          chatId,
+          prettyBeerList.join("\n\n"),
+          markDownOption
+        );
+      }
     );
-  }
+  });
 });
