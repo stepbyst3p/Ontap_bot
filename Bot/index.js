@@ -73,8 +73,8 @@ bot.on("location", msg => {
   //   );
   // }
   bot.on("text", answer => {
-    try {
-      request.post(
+    request
+      .post(
         "http://localhost:8000/beers",
         { form: { barTitle: answer.text } },
         function(error, response, body) {
@@ -89,9 +89,9 @@ bot.on("location", msg => {
           console.log(prettyBeerList);
           bot.sendMessage(chatId, prettyBeerList.join("\n\n"), markDownOption);
         }
-      );
-    } catch (err) {
-      bot.sendMessage(chatId, "Нет такого бара", options);
-    }
+      )
+      .on("error", function(err) {
+        console.log(err);
+      });
   });
 });
