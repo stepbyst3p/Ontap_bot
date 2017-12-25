@@ -42,59 +42,49 @@ bot.on("location", msg => {
     pool: { maxSockets: 100 }
   };
   console.log(msg.location);
-  try {
-    request(optionsBars, function(error, response, body) {
-      console.log(body);
-      const bars = JSON.parse(body);
-      let options = {
-        reply_markup: JSON.stringify({
-          keyboard: _.map(bars, bar => {
-            const button = [
-              {
-                text: bar.title,
-                callback_data: bar.address
-              }
-            ];
-            console.log(button);
-            return button;
-          })
+  // try {
+  request(optionsBars, function(error, response, body) {
+    console.log(body);
+    const bars = JSON.parse(body);
+    let options = {
+      reply_markup: JSON.stringify({
+        inline_keyboard: _.map(bars, bar => {
+          const button = [
+            {
+              text: bar.title,
+              callback_data: bar.address
+            }
+          ];
+          console.log(button);
+          return button;
         })
-      };
-      bot
-        .sendMessage(chatId, "Ближайшие бары в радиусе 5 километров:", options)
-        .then(() => {
-          bot.on("message", answer => {
-            request.post(
-              "http://localhost:8000/beers",
-              { form: { barTitle: answer.text } },
-              function(error, response, body) {
-                console.log(body);
-                console.log(JSON.parse(body));
-                const prettyBeerList = _.map(
-                  JSON.parse(body),
-                  (beer, title) => {
-                    console.log({ beer });
-                    return `▪️ ${beer.title}\nПивоварня: ${
-                      beer.brewery
-                    }\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}%`;
-                  }
-                );
-                console.log(prettyBeerList);
-                bot.sendMessage(
-                  chatId,
-                  prettyBeerList.join("\n\n"),
-                  markDownOption
-                );
-              }
-            );
-          });
+      })
+    };
+    bot.sendMessage(chatId, "Ближайшие бары в радиусе 5 километров:", options);
+  });
+  // } catch (err) {
+  //   bot.sendMessage(
+  //     chatId,
+  //     "К сожалению, поблизости нет интересных баров",
+  //     options
+  //   );
+  // }
+  bot.on("message", answer => {
+    request.post(
+      "http://localhost:8000/beers",
+      { form: { barTitle: answer.text } },
+      function(error, response, body) {
+        console.log(body);
+        console.log(JSON.parse(body));
+        const prettyBeerList = _.map(JSON.parse(body), (beer, title) => {
+          console.log({ beer });
+          return `▪️ ${beer.title}\nПивоварня: ${beer.brewery}\nСтиль: ${
+            beer.style
+          }\nАлкоголь: ${beer.alc}%`;
         });
-    });
-  } catch (err) {
-    bot.sendMessage(
-      chatId,
-      "К сожалению, поблизости нет интересных баров",
-      options
+        console.log(prettyBeerList);
+        bot.sendMessage(chatId, prettyBeerList.join("\n\n"), markDownOption);
+      }
     );
-  }
+  });
 });
