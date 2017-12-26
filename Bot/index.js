@@ -148,7 +148,7 @@ bot.on("text", answer => {
           }\nАлкоголь: ${beer.alc}%`;
         });
         console.log(prettyBeerList);
-        bot.sendMessage(chatId, prettyBeerList.join("\n\n"), markDownOption);
+        bot.sendMessage(chatId, prettyBeerList.join("\n\n"), optionsBeers);
       }
     }
   );
