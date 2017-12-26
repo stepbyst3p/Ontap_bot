@@ -21,12 +21,12 @@ const optionsBeers = {
 const markDownOption = {
   parse_mod: "markdown"
 };
-bot.onText(/\/echo (.+)/, (msg, match) => {
-  const chatId = msg.chat.id;
-  const resp = match[1];
+// bot.onText(/\/echo (.+)/, (msg, match) => {
+//   const chatId = msg.chat.id;
+//   const resp = match[1];
 
-  bot.sendMessage(chatId, resp);
-});
+//   bot.sendMessage(chatId, resp);
+// });
 
 bot.on("location", msg => {
   const chatId = msg.chat.id;
@@ -42,7 +42,6 @@ bot.on("location", msg => {
   console.log(msg.location);
   // try {
   request(optionsBars, function(error, response, body) {
-    console.log(body);
     const bars = JSON.parse(body);
     let options = {
       reply_markup: JSON.stringify({
@@ -95,31 +94,31 @@ bot.on("location", msg => {
         });
       });
   });
-  bot.on("text", answer => {
-    request.post(
-      "http://localhost:8000/beers",
-      { form: { barTitle: answer.text } },
-      function(error, response, body) {
-        if (body === "not_exist") {
-          // bot.sendMessage(
-          //   chatId,
-          //   "Вероятно, вы пытаетесь найти несуществующий бар, либо его нет поблизости",
-          //   markDownOption
-          // );
-          console.log("kto-to chtoto napisal");
-        } else {
-          const prettyBeerList = _.map(JSON.parse(body), (beer, title) => {
-            console.log({ beer });
-            return `▪️ ${beer.title}\nПивоварня: ${beer.brewery}\nСтиль: ${
-              beer.style
-            }\nАлкоголь: ${beer.alc}%`;
-          });
-          console.log(prettyBeerList);
-          bot.sendMessage(chatId, prettyBeerList.join("\n\n"), markDownOption);
-        }
-      }
-    );
-  });
+  // bot.on("text", answer => {
+  //   request.post(
+  //     "http://localhost:8000/beers",
+  //     { form: { barTitle: answer.text } },
+  //     function(error, response, body) {
+  //       if (body === "not_exist") {
+  //         // bot.sendMessage(
+  //         //   chatId,
+  //         //   "Вероятно, вы пытаетесь найти несуществующий бар, либо его нет поблизости",
+  //         //   markDownOption
+  //         // );
+  //         console.log("kto-to chtoto napisal");
+  //       } else {
+  //         const prettyBeerList = _.map(JSON.parse(body), (beer, title) => {
+  //           console.log({ beer });
+  //           return `▪️ ${beer.title}\nПивоварня: ${beer.brewery}\nСтиль: ${
+  //             beer.style
+  //           }\nАлкоголь: ${beer.alc}%`;
+  //         });
+  //         console.log(prettyBeerList);
+  //         bot.sendMessage(chatId, prettyBeerList.join("\n\n"), markDownOption);
+  //       }
+  //     }
+  //   );
+  // });
   // } catch (err) {
   //   bot.sendMessage(
   //     chatId,
