@@ -119,12 +119,14 @@ app.post("/bars", (req, res) => {
   }
 });
 
-app.post("/beers", (req, res) => {
-  try {
+app
+  .post("/beers", (req, res) => {
     const barTitle = req.body.barTitle;
     console.log(barTitle);
     ref.once("value", function(snapshot) {
       const Data = snapshot.val();
+      console.log(Data);
+      // if (Data.length === 0 || typeOf(Data))
       const obj = Object.values(Data).map(x => x.bars);
       const barsCollection = Object.values(obj).map(x => {
         let bors = Object.values(x).map(bar => ({
@@ -135,16 +137,19 @@ app.post("/beers", (req, res) => {
       });
       let qwe = [].concat.apply([], barsCollection);
       const thisBar = _.find(qwe, { title: barTitle });
-      const beerList = _.map(thisBar.beers, beer => ({
-        title: beer.beerTitle,
-        brewery: beer.beerBrewery,
-        style: beer.beerStyle,
-        alc: beer.beerAlc
-      }));
-      res.send(beerList);
+      if (typeof thisBar !== "undefined") {
+        const beerList = _.map(thisBar.beers, beer => ({
+          title: beer.beerTitle,
+          brewery: beer.beerBrewery,
+          style: beer.beerStyle,
+          alc: beer.beerAlc
+        }));
+        res.send(beerList);
+      } else {
+        res.send("not_exist");
+      }
     });
-  } catch (error) {
-    throw Error;
-    res.send(error);
-  }
-});
+  })
+  .on("error", function(err) {
+    res.send(err);
+  });
