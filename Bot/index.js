@@ -64,48 +64,47 @@ bot.on("location", msg => {
         })
       })
     };
-    bot
-      .sendMessage(
-        chatId,
-        "Вот ближайшие места из тех, которые я знаю",
-        options
-      )
-      .then(() => {
-        bot.on("text", answer => {
-          const chatId = answer.chat.id;
-          request.post(
-            "http://localhost:8000/beers",
-            { form: { barTitle: answer.text } },
-            function(error, response, body) {
-              if (body === "not_exist") {
-                // bot.sendMessage(
-                //   chatId,
-                //   "Вероятно, вы пытаетесь найти несуществующий бар, либо его нет поблизости",
-                //   markDownOption
-                // );
-                console.log("kto-to chtoto napisal");
-              } else {
-                const prettyBeerList = _.map(
-                  JSON.parse(body),
-                  (beer, title) => {
-                    console.log({ beer });
-                    return `▪️ ${beer.title}\nПивоварня: ${
-                      beer.brewery
-                    }\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}%`;
-                  }
-                );
-                console.log(prettyBeerList);
-                bot.sendMessage(chatId, `${answer.text} tap list`);
-                bot.sendMessage(
-                  chatId,
-                  prettyBeerList.join("\n\n"),
-                  markDownOption
-                );
-              }
-            }
-          );
-        });
-      });
+    bot.sendMessage(
+      chatId,
+      "Вот ближайшие места из тех, которые я знаю",
+      options
+    );
+    // .then(() => {
+    //   bot.on("text", answer => {
+    //     const chatId = answer.chat.id;
+    //     request.post(
+    //       "http://localhost:8000/beers",
+    //       { form: { barTitle: answer.text } },
+    //       function(error, response, body) {
+    //         if (body === "not_exist") {
+    //           // bot.sendMessage(
+    //           //   chatId,
+    //           //   "Вероятно, вы пытаетесь найти несуществующий бар, либо его нет поблизости",
+    //           //   markDownOption
+    //           // );
+    //           console.log("kto-to chtoto napisal");
+    //         } else {
+    //           const prettyBeerList = _.map(
+    //             JSON.parse(body),
+    //             (beer, title) => {
+    //               console.log({ beer });
+    //               return `▪️ ${beer.title}\nПивоварня: ${
+    //                 beer.brewery
+    //               }\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}%`;
+    //             }
+    //           );
+    //           console.log(prettyBeerList);
+    //           bot.sendMessage(chatId, `${answer.text} tap list`);
+    //           bot.sendMessage(
+    //             chatId,
+    //             prettyBeerList.join("\n\n"),
+    //             markDownOption
+    //           );
+    //         }
+    //       }
+    //     );
+    //   });
+    // });
   });
   // bot.on("text", answer => {
   //   request.post(
