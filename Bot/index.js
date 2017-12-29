@@ -47,7 +47,7 @@ var startNotifications = function(message) {
       agent: false,
       pool: { maxSockets: 100 }
     };
-    // console.log(msg.location);
+    console.log(msg.location);
     // try {
     request(optionsBars, function(error, response, body) {
       const bars = JSON.parse(body);
@@ -60,7 +60,7 @@ var startNotifications = function(message) {
                 callback_data: bar.address
               }
             ];
-            // console.log(button);
+            console.log(button);
             return button;
           })
         })
@@ -84,7 +84,7 @@ var startNotifications = function(message) {
                   //   "Вероятно, вы пытаетесь найти несуществующий бар, либо его нет поблизости",
                   //   markDownOption
                   // );
-                  // console.log("kto-to chtoto napisal");
+                  console.log("kto-to chtoto napisal");
                 } else {
                   const prettyBeerList = _.map(
                     JSON.parse(body),
@@ -95,7 +95,7 @@ var startNotifications = function(message) {
                       }\nСтиль: ${beer.style}\nАлкоголь: ${beer.alc}%`;
                     }
                   );
-                  // console.log(prettyBeerList);
+                  console.log(prettyBeerList);
                   bot.sendMessage(
                     chatId,
                     prettyBeerList.join("\n\n"),
@@ -152,7 +152,7 @@ var startNotifications = function(message) {
           //   "Вероятно, вы пытаетесь найти несуществующий бар, либо его нет поблизости",
           //   markDownOption
           // );
-          // console.log("kto-to chtoto napisal");
+          console.log("kto-to chtoto napisal");
         } else {
           const prettyBeerList = _.map(JSON.parse(body), (beer, title) => {
             console.log({ beer });
@@ -160,7 +160,7 @@ var startNotifications = function(message) {
               beer.style
             }\nАлкоголь: ${beer.alc}%`;
           });
-          // console.log(prettyBeerList);
+          console.log(prettyBeerList);
           bot.sendMessage(
             chatId,
             `Вот что в "${answer.text}" на кранах!`,

@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.post("/registration", (req, res) => {
-  // console.log(req);
+  console.log(req);
   const {
     email = "",
     name = "",
@@ -64,7 +64,7 @@ app.post("/registration", (req, res) => {
 });
 
 app.post("/bars", (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
   try {
     const geo = {
       latitude: req.body.lat,
