@@ -95,6 +95,7 @@ bot.on("location", msg => {
                   }
                 );
                 console.log(prettyBeerList);
+                bot.sendMessage(chatId, `${answer.text} tap list`);
                 bot.sendMessage(
                   chatId,
                   prettyBeerList.join("\n\n"),
