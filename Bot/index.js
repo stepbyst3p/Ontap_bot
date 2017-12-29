@@ -160,8 +160,9 @@ bot.on("text", answer => {
           }\nАлкоголь: ${beer.alc}%`;
         });
         console.log(prettyBeerList);
-        bot.sendMessage(chatId, `${answer.text} tap list`);
-        bot.sendMessage(chatId, prettyBeerList.join("\n\n"), optionsBeers);
+        bot.sendMessage(chatId, `${answer.text} tap list`).then(() => {
+          bot.sendMessage(chatId, prettyBeerList.join("\n\n"), optionsBeers);
+        });
       }
     }
   );
