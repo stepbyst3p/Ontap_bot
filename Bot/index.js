@@ -67,7 +67,7 @@ bot.on("location", msg => {
     bot
       .sendMessage(
         chatId,
-        "Вот тебе 5 ближайших мест, который я могу посоветовать",
+        "Вот ближайшие места из тех, которые я знаю",
         options
       )
       .then(() => {
@@ -160,7 +160,7 @@ bot.on("text", answer => {
           }\nАлкоголь: ${beer.alc}%`;
         });
         console.log(prettyBeerList);
-        bot.sendMessage(chatId, `Вот что в "${answer.text}" на кранах!`);
+        bot.sendMessage(chatId, `${answer.text} tap list`);
         bot.sendMessage(chatId, prettyBeerList.join("\n\n"), optionsBeers);
       }
     }
