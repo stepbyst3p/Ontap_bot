@@ -70,7 +70,7 @@ app.post("/bars", (req, res) => {
       latitude: req.body.lat,
       longitude: req.body.lng
     };
-    ref.once("value", function(snapshot) {
+    ref.once("value", function (snapshot) {
       const Data = snapshot.val();
 
       const obj = Object.values(Data).map(x => x.bars);
@@ -82,12 +82,12 @@ app.post("/bars", (req, res) => {
       });
       let result = barsCollection.map(a => a.geocode);
       let resultishe = [].concat.apply([], barsCollection);
-      let geocodes = resultishe.reduce(function(acc, x) {
+      let geocodes = resultishe.reduce(function (acc, x) {
         for (var key in x) acc[key] = x[key];
         return acc;
       }, {});
 
-      const sortedGeocodes = geolib.orderByDistance(geo, geocodes, 500);
+      const sortedGeocodes = geolib.orderByDistance(geo, geocodes);
 
       const bars = Object.values(obj).map(x => {
         let bors = Object.values(x).map(bar => ({
@@ -123,7 +123,7 @@ app
   .post("/beers", (req, res) => {
     const barTitle = req.body.barTitle;
     console.log(barTitle);
-    ref.once("value", function(snapshot) {
+    ref.once("value", function (snapshot) {
       const Data = snapshot.val();
       console.log(Data);
       // if (Data.length === 0 || typeOf(Data))
@@ -150,6 +150,6 @@ app
       }
     });
   })
-  .on("error", function(err) {
+  .on("error", function (err) {
     res.send(err);
   });

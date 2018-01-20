@@ -5,7 +5,6 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
-import ChordEditor from "./components/ChordEditor";
 import BarList from "./components/BarList";
 import { app, base } from "./base";
 
@@ -17,8 +16,8 @@ function AuthenticatedRoute({ component: Component, authenticated, ...rest }) {
         authenticated === true ? (
           <Component {...props} {...rest} />
         ) : (
-          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
-        )
+            <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+          )
       }
     />
   );
@@ -195,15 +194,6 @@ class App extends Component {
                   bars={this.state.bars}
                   addBeer={this.addBeer}
                   userUid={this.state.currentUser.uid}
-                />
-                <ShowRoute
-                  path="/bars/:barId"
-                  component={ChordEditor}
-                  authenticated={this.state.authenticated}
-                  requireAuth={true}
-                  param="barId"
-                  updateBar={this.updateBar}
-                  items={this.state.bars}
                 />
               </div>
             </div>
