@@ -89,7 +89,7 @@ app.post("/bars", (req, res) => {
 
       const sortedGeocodes = geolib.orderByDistance(geo, geocodes);
 
-      const bars = Object.values(obj).map(x => {
+      const bars = Object.values(sortedGeocodes).map(x => {
         let bors = Object.values(x).map(bar => ({
           title: bar.title,
           address: bar.address,
