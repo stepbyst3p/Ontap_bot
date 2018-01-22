@@ -12,7 +12,7 @@ const headers = {
   "Content-Type": "application/x-www-form-urlencoded"
 };
 
-var startNotifications = function(message) {
+var startNotifications = function (message) {
   botan.track(message, "Start");
   var uid = msg.chat.id;
 };
@@ -48,8 +48,9 @@ bot.on("location", msg => {
   };
   console.log(msg.location);
   // try {
-  request(optionsBars, function(error, response, body) {
+  request(optionsBars, function (error, response, body) {
     const bars = JSON.parse(body);
+    console.log(bars)
     let options = {
       reply_markup: JSON.stringify({
         keyboard: _.map(bars, bar => {
@@ -144,7 +145,7 @@ bot.on("text", answer => {
   request.post(
     "http://localhost:8000/beers",
     { form: { barTitle: answer.text } },
-    function(error, response, body) {
+    function (error, response, body) {
       if (body === "not_exist") {
         // bot.sendMessage(
         //   chatId,
@@ -157,7 +158,7 @@ bot.on("text", answer => {
           console.log({ beer });
           return `▪️ ${beer.title}\nПивоварня: ${beer.brewery}\nСтиль: ${
             beer.style
-          }\nАлкоголь: ${beer.alc}%`;
+            }\nАлкоголь: ${beer.alc}%`;
         });
         console.log(prettyBeerList);
         bot.sendMessage(chatId, `${answer.text} tap list`).then(() => {

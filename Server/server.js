@@ -89,7 +89,7 @@ app.post("/bars", (req, res) => {
 
       const sortedGeocodes = geolib.orderByDistance(geo, geocodes);
 
-      const bars = Object.values(sortedGeocodes).map(x => {
+      const bars = Object.values(obj).map(x => {
         let bors = Object.values(x).map(bar => ({
           title: bar.title,
           address: bar.address,
@@ -100,18 +100,18 @@ app.post("/bars", (req, res) => {
       });
       let qwe = [].concat.apply([], bars);
       let barList = qwe.slice(0, 5);
-      res.send(barList);
+      // res.send(barList);
 
-      // let meow = {
-      //   result1: _.find(qwe, { address: sortedGeocodes[0].key }),
-      //   result2: _.find(qwe, { address: sortedGeocodes[1].key }),
-      //   result3: _.find(qwe, { address: sortedGeocodes[2].key }),
-      //   result4: _.find(qwe, { address: sortedGeocodes[3].key }),
-      //   result5: _.find(qwe, { address: sortedGeocodes[4].key })
-      // };
-      // let pew = {
-      //   result: qwe.slice(1, 5)
-      // }
+      let meow = {
+        result1: _.find(qwe, { address: sortedGeocodes[0].key }),
+        result2: _.find(qwe, { address: sortedGeocodes[1].key }),
+        result3: _.find(qwe, { address: sortedGeocodes[2].key }),
+        result4: _.find(qwe, { address: sortedGeocodes[3].key })
+      };
+      let pew = {
+        result: qwe.slice(0, 3)
+      }
+      res.send(pew)
     });
   } catch (error) {
     console.log(error);
