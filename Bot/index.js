@@ -50,7 +50,6 @@ bot.on("location", msg => {
   // try {
   request(optionsBars, function (error, response, body) {
     const bars = JSON.parse(body);
-    console.log(bars)
     let options = {
       reply_markup: JSON.stringify({
         keyboard: _.map(bars, bar => {
