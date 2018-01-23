@@ -55,8 +55,8 @@ bot.on("location", msg => {
         keyboard: _.map(bars, bar => {
           const button = [
             {
-              text: bar.title,
-              callback_data: bar.address
+              text: bar.key,
+              callback_data: bar.key
             }
           ];
           console.log(button);

@@ -76,19 +76,21 @@ app.post("/bars", (req, res) => {
       const obj = Object.values(Data).map(x => x.bars);
       const barsCollection = Object.values(obj).map(x => {
         let bors = Object.values(x).map(bar => ({
-          [bar.address]: bar.geocode
+          [bar.title]: bar.geocode,
         }));
         return bors;
       });
       let result = barsCollection.map(a => a.geocode);
       let resultishe = [].concat.apply([], barsCollection);
       let geocodes = resultishe.reduce(function (acc, x) {
-        for (var key in x) acc[key] = x[key];
+        for (var title in x) acc[title] = x[title];
         return acc;
       }, {});
-
+      // console.log(barsCollection)
+      console.log('______________')
       const sortedGeocodes = geolib.orderByDistance(geo, geocodes);
-
+      console.log(sortedGeocodes)
+      console.log('______________')
       const bars = Object.values(obj).map(x => {
         let bors = Object.values(x).map(bar => ({
           title: bar.title,
@@ -100,18 +102,19 @@ app.post("/bars", (req, res) => {
       });
       let qwe = [].concat.apply([], bars);
       let barList = qwe.slice(0, 5);
-      // res.send(barList);
+      console.log(barList)
+      res.send(sortedGeocodes);
 
-      let meow = {
-        result1: _.find(qwe, { address: sortedGeocodes[0].key }),
-        result2: _.find(qwe, { address: sortedGeocodes[1].key }),
-        result3: _.find(qwe, { address: sortedGeocodes[2].key }),
-        result4: _.find(qwe, { address: sortedGeocodes[3].key })
-      };
-      let pew = {
-        result: qwe.slice(0, 3)
-      }
-      res.send(pew)
+      // let meow = {
+      //   result1: _.find(qwe, { address: sortedGeocodes[0].key }),
+      //   result2: _.find(qwe, { address: sortedGeocodes[1].key }),
+      //   result3: _.find(qwe, { address: sortedGeocodes[2].key }),
+      //   result4: _.find(qwe, { address: sortedGeocodes[3].key }),
+      //   result5: _.find(qwe, { address: sortedGeocodes[4].key })
+      // };
+      // let pew = {
+      //   result: qwe.slice(1, 5)
+      // }
     });
   } catch (error) {
     console.log(error);
