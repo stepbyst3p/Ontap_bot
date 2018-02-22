@@ -42,14 +42,14 @@ app.post("/registration", (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: "lttasap",
-        pass: "fck1ng00dp45"
+        user: "ontapdev",
+        pass: ":qgc)?KYU$9<6ta5"
       }
     });
 
     let mailOptions = {
-      from: `${barTitle} "🍺" <lttasap@yandex.ru>`,
-      to: "spikerdn@gmail.com, info@ontap.online",
+      from: `${barTitle} "🍺" <ontapdev@yandex.ru>`,
+      to: "info@ontap.online",
       subject: "Новая заявка ✔",
       text: "Hello world?",
       html: `<b>Имя: </b>${name}<br/><b>Email: </b>${email}<br/><b>Название: </b>${barTitle}<br/><b>Город: </b>${barCity}<br/><b>Адрес: </b>${barAddress}`
